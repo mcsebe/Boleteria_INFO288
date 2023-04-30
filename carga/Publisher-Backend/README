@@ -1,0 +1,8 @@
+
+1. Crear entorno virtual llamado flask con el comando "python -m venv flask" o si tiene python version 3 "python3 -m venv flask"
+2. Activar el entorno virtual con el comando ".\flask\Scripts\activate" en windows o en linux con ". flask/bin/activate"
+3. Intalar requeriments.txt con el comando "pip install -r requirements.txt -v"
+4. Ejecutar:
+    1. Abrir 4 terminales e inicializar el entorno en todas (si es que no se encuentra inicializado) con el comando ".\flask\Scripts\activate" en windows o en linux con ". flask/bin/activate"
+    2. En la primera terminal ir a la carpeta master con el comando "cd master" y ejecutar el comando "flask run -p 5100"
+    
