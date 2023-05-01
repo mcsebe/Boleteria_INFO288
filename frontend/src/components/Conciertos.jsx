@@ -5,7 +5,17 @@ import axios from "axios";
 
 const Conciertos = () => {
   function sendInformation(name) {
-    axios.post(`http://127.0.0.1:5100/publisher?concierto= ${name}`);
+
+    // ----------------------- CAMBIAR ----------------------------------------
+    const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    const length = 12;
+    const charactersLength = characters.length;
+    for ( let i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    // ------------------------------------------------------------------------
+    axios.put(`http://127.0.0.1:5100/publisher`, {concierto: name, mensaje: result});
   }
   return (
     <div className="mt-5 mx-[10%] grid grid-cols-2 justify-items-center">
