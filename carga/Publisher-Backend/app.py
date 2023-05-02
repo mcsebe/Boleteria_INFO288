@@ -22,6 +22,8 @@ for i in sysConfig:
 
 @app.route('/publisher', methods=['PUT']) 
 def getPublisher():
+    connection = pika.BlockingConnection(pika.ConnectionParameters(host='127.0.0.1'))
+    channel = connection.channel()
     data = request.json
     if data["concierto"] and data["mensaje"]:
         try:

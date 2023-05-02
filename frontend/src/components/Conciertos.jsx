@@ -7,14 +7,9 @@ const Conciertos = () => {
   function sendInformation(name) {
 
     // ----------------------- CAMBIAR ----------------------------------------
-    const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-    const length = 12;
-    const charactersLength = characters.length;
-    for ( let i = 0; i < length; i++ ) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
+    let result = Math.random().toString(36).substr(2) + Math.random().toString(36).substr(2)
     // ------------------------------------------------------------------------
+    document.cookie = `token=${result}`;
     axios.put(`http://127.0.0.1:5100/publisher`, {concierto: name, mensaje: result});
   }
   return (
