@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import Concert from "../imports/Concert";
 import { GrFormPrevious, GrFormNext } from "react-icons/gr";
+
 let count = 0;
+let slideInterval;
 const Carrousel = () => {
   const intervalTime = 5000;
   const [index, setIndex] = useState(0);
@@ -11,11 +13,16 @@ const Carrousel = () => {
   };
   useEffect(() => {
     slideRef.current.addEventListener("animationend", removeAnimation);
+    slideRef.current.addEventListener("mouseenter", pauseSlider);
+    slideRef.current.addEventListener("mouseleave", startSlider);
     startSlider();
+    return () => {
+      pauseSlider();
+    };
   }, []);
 
   const startSlider = () => {
-    setInterval(() => {
+    slideInterval = setInterval(() => {
       nextSlide();
     }, intervalTime);
   };
@@ -29,7 +36,9 @@ const Carrousel = () => {
     setIndex(count);
     slideRef.current.classList.add("fade-anim");
   };
-
+  const pauseSlider = () => {
+    clearInterval(slideInterval);
+  };
   return (
     <div ref={slideRef} className="w-full select-none relative">
       <div className="w-full h-[30rem]">

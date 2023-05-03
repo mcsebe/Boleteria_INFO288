@@ -15,10 +15,18 @@ const Conciertos = () => {
       concierto: name,
       mensaje: result,
     });
-    axios.put(`http://127.0.0.1:5100/token`, {
-      concierto: name,
-      mensaje: "12",
-    });
+    axios
+      .put("http://127.0.0.1:5100/token", {
+        concierto: name,
+        mensaje: "123",
+      })
+      .then((response) => {
+        const data = response.data;
+        console.log(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
   return (
     <div className="md:mt-5 md:mx-[10%] grid grid-rows-1 md:grid-cols-2 justify-items-center">
