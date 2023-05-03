@@ -1,5 +1,5 @@
 import mariadb
-
+import pika
 
 ###############################################################################
 def get_connection_db(conn):
@@ -83,5 +83,8 @@ def insert(dbConnConfig, data):
         if(connection):
             cursor.close()
             connection.close()
-            print("PostgreSQL connection is closed")        
+            print("PostgreSQL connection is closed")
+    connection = pika.BlockingConnection(pika.ConnectionParameters(host='127.0.0.1'))
+    channel = connection.channel()
+    channel.basic_publish(exchange='', routing_key="desencolar", body = data["NombreConcierto"])
     return resp

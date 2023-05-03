@@ -1,7 +1,12 @@
 from flask import Flask, request, jsonify,json
 from common import app, sysConfig
 from controller import *
-import model 
+import model
+import pika
+
+connection = pika.BlockingConnection(pika.ConnectionParameters(host='127.0.0.1'))
+channel = connection.channel()
+channel.queue_declare("desencolar")
 
 @app.route('/capacidad', methods=['GET']) 
 def getCapacidad():
