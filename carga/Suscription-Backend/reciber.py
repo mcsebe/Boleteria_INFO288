@@ -1,6 +1,7 @@
 import pika
 import mariadb
-import datetime
+import time
+from datetime import datetime, timedelta
 from common import *
 
 
@@ -43,12 +44,20 @@ while True:
             if method:
                 counters[queue] +=1
                 try:
+
+                    # Obtener el timestamp actual
+                    timestamp_actual = int(time.time())
+                    # Sumar 5 minutos
+                    timestamp_futuro = datetime.fromtimestamp(timestamp_actual) + timedelta(minutes=5)
+                    # Convertir a timestamp Unix
+                    timestamp_futuro = int(timestamp_futuro.timestamp())
+
                     connection = get_connection_db(dbConnConfig["dbConnConfig"])
                     cursor = connection.cursor()
 
-                    sqlStatement = """INSERT INTO token (Valor, Fecha) VALUES (%s, %s)"""
+                    sqlStatement = """INSERT INTO token (Valor, Fecha, Cola) VALUES (%s, %s, %s)"""
 
-                    cursor.execute(sqlStatement, (body.decode(), datetime.datetime.now()))
+                    cursor.execute(sqlStatement, (body.decode(), timestamp_futuro, queue))
                     connection.commit()
                     print(body.decode() + "  " + queue + "  " + str(counters[queue]))
 
@@ -67,5 +76,8 @@ while True:
             method, properties, body = channel.basic_get(queue=queue, auto_ack=True)
             if method:
                 counters[body.decode()] -= 1
+                if(counters[body.decode()] < 0):
+                    counters[body.decode()] = 0 
+                print("--------------" + body.decode() + "--------------------- " + str(counters[body.decode()]))
             else:
                 pass

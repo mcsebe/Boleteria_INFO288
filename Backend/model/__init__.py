@@ -31,7 +31,6 @@ def capacidad(dbConnConfig, concierto):
         if(connection):
             cursor.close()
             connection.close()
-            print("MariaDB connection is closed")
 
     return resp
 
@@ -56,12 +55,31 @@ def disponible(dbConnConfig, concierto):
         if(connection):
             cursor.close()
             connection.close()
-            print("PostgreSQL connection is closed")
 
     return resp
 
 
-def insert(dbConnConfig, data):
+def insert(dbConnConfig, dbConnConfig2, data):
+    try:
+        connection = get_connection_db(dbConnConfig2)
+        cursor = connection.cursor()
+
+        sqlStatement = 'DELETE FROM token WHERE Valor = "' + data["Token"] + '"'
+        print(sqlStatement)
+
+        cursor.execute(sqlStatement)
+        connection.commit()
+
+    except (Exception, mariadb.Error) as error :
+        if(connection):
+            print("Failed delete one ", error)
+
+    finally:
+        #closing database connection.
+        if(connection):
+            cursor.close()
+            connection.close()
+
     resp={"inserted_rows":-1}
     try:
         connection = get_connection_db(dbConnConfig)
@@ -83,7 +101,7 @@ def insert(dbConnConfig, data):
         if(connection):
             cursor.close()
             connection.close()
-            print("PostgreSQL connection is closed")
+
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='127.0.0.1'))
     channel = connection.channel()
     channel.basic_publish(exchange='', routing_key="desencolar", body = data["NombreConcierto"])

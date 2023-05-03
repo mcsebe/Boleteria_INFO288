@@ -27,12 +27,12 @@ CREATE TABLE IF NOT EXISTS `concierto` (
   PRIMARY KEY (`id`),
   KEY `id_locacion` (`id_locacion`),
   CONSTRAINT `FK_concierto_locacion` FOREIGN KEY (`id_locacion`) REFERENCES `locacion` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
 
 -- Volcando datos para la tabla boleteria.concierto: ~1 rows (aproximadamente)
 /*!40000 ALTER TABLE `concierto` DISABLE KEYS */;
 INSERT INTO `concierto` (`id`, `Nombre`, `Precio`, `Fecha`, `id_locacion`) VALUES
-	(1, 'adsdas', 1111, '2023-04-28 17:11:52', 1);
+	(3, 'adsdas', 1111, '2023-04-28 17:11:52', 1);
 /*!40000 ALTER TABLE `concierto` ENABLE KEYS */;
 
 -- Volcando estructura para tabla boleteria.locacion
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `locacion` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
 
--- Volcando datos para la tabla boleteria.locacion: ~1 rows (aproximadamente)
+-- Volcando datos para la tabla boleteria.locacion: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `locacion` DISABLE KEYS */;
 INSERT INTO `locacion` (`id`, `Nombre`, `Ciudad`, `Region`, `Capacidad`) VALUES
 	(1, 'werwer', 'weew', 'werrwe', 100);
@@ -60,17 +60,13 @@ CREATE TABLE IF NOT EXISTS `reserva` (
   `Edad` int(11) NOT NULL,
   `Correo` varchar(50) NOT NULL DEFAULT '',
   `id_concierto` int(11) NOT NULL DEFAULT 0,
-  `Finalizado` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_concierto` (`id_concierto`),
   CONSTRAINT `FK_reserva_concierto` FOREIGN KEY (`id_concierto`) REFERENCES `concierto` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- Volcando datos para la tabla boleteria.reserva: ~2 rows (aproximadamente)
+-- Volcando datos para la tabla boleteria.reserva: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `reserva` DISABLE KEYS */;
-INSERT INTO `reserva` (`id`, `Asiento`, `Nombre`, `Rut`, `Edad`, `Correo`, `id_concierto`, `Finalizado`) VALUES
-	(1, 2, 'wfefew', '12332', 12, 'fwewfe', 1, 0),
-	(2, 4, 'wfefew', '12332', 12, 'fwewfe', 1, 0);
 /*!40000 ALTER TABLE `reserva` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

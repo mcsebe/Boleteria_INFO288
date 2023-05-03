@@ -2,5 +2,6 @@
     "host": "127.0.0.1", 
     "port": 5001,
     "server_name":"master",
-    "dbConnConfig":{"user":"root", "pass":"1306", "host":"127.0.0.1", "port": 3306, "database":"boleteria"}
+    "dbConnConfig":{"user":"root", "pass":"1306", "host":"127.0.0.1", "port": 3306, "database":"boleteria"},
+    "dbConnConfig2":{"user":"root", "pass":"1306", "host":"127.0.0.1", "port": 3306, "database":"token"}
 }

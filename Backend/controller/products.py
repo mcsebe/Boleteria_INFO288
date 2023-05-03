@@ -31,4 +31,4 @@ def getDisponibles():
 @app.route('/subir', methods=['POST']) 
 def createReserva():
     data = request.json
-    return model.insert(sysConfig["dbConnConfig"],data)
+    return model.insert(sysConfig["dbConnConfig"], sysConfig["dbConnConfig2"], data)
