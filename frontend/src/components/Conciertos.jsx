@@ -1,33 +1,23 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Concert from "../imports/Concert";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
 const Conciertos = () => {
   function sendInformation(name) {
-    // ----------------------- CAMBIAR ----------------------------------------
-    let result =
-      Math.random().toString(36).substr(2) +
-      Math.random().toString(36).substr(2);
-    // ------------------------------------------------------------------------
-    document.cookie = `token=${result}`;
-    axios.put(`http://127.0.0.1:5100/publisher`, {
-      concierto: name,
-      mensaje: result,
-    });
-    axios
-      .put("http://127.0.0.1:5100/token", {
-        concierto: name,
-        mensaje: "123",
-      })
-      .then((response) => {
-        const data = response.data;
-        console.log(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    //----------------------- CAMBIAR ----------------------------------------
+    // let result =
+    //   Math.random().toString(36).substr(2) +
+    //   Math.random().toString(36).substr(2);
+    // // ------------------------------------------------------------------------
+    // document.cookie = `token=${result}`;
+    // axios.put(`http://127.0.0.1:5100/publisher`, {
+    //   concierto: name,
+    //   mensaje: result,
+    // });
+    console.log("publisher");
   }
+
   return (
     <div className="md:mt-5 md:mx-[10%] grid grid-rows-1 md:grid-cols-2 justify-items-center">
       {Concert.map((concert) => (
