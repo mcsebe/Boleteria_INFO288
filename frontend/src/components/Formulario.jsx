@@ -2,10 +2,12 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from 'react';
 import axios from "axios";
-import metallica from "../assets/metallica"
-import wee from "../assets/the_weeknd_logo"
-import metallica from "../assets/metallica"
-import metallica from "../assets/metallica"
+import Image from "../assets/metallica_logo.webp";
+import Weeknd from "../assets/the_weeknd_logo.webp";
+import Siames from "../assets/siames2.jpg";
+import molotov from "../assets/molotov.jpg";
+import MovimientoOriginal from "../assets/movimientoOriginal.png";
+import Chystemc from "../assets/Chystemc.png";
 import Concert from "../imports/Concert";
 
 export default function Formulario() {
@@ -15,18 +17,17 @@ export default function Formulario() {
   const [concierto, setConcierto] = useState(null);
 
   useEffect(() => {
-    axios
-      .post("http://127.0.0.1:5001/informacion", {Id: id})
-      .then((response) => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.post("http://127.0.0.1:5001/informacion", {Id: id});
         setConcierto(response.data);
-        
         console.log(concierto[0])
         console.log(concierto[1])
-
-      })
-      .catch((error) => {
+      } catch (error) {
         console.log(error);
-      });
+      }
+    }
+    fetchData();
   }, [id]);
 
   const [email, setEmail] = useState("");
@@ -193,13 +194,13 @@ export default function Formulario() {
           <div className="flex flex-col">
             <img
               className="w-full h-[15rem]  md:mx-auto mx-0 md:mb-8 mb-0 mr-8 rounded-md"
-              src={metallica}
-              alt={concierto[1][2]}
+              src={Image}
+              // alt={concierto[1][2]}
             />
-            <p className="mt-5 md:mt-1 text-sm leading-6 text-gray-600">
+            {/* <p className="mt-5 md:mt-1 text-sm leading-6 text-gray-600">
               Precio: {concierto[1][2]} <br /> Fecha del concierto:{" "}
               {concierto[1][3]}
-            </p>
+            </p> */}
             <button
               type="submit"
               className="bg-green-500 mt-5 text-white rounded-md py-2 px-5 hover:bg-green-600"
