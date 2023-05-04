@@ -11,10 +11,10 @@ const Conciertos = () => {
       Math.random().toString(36).substr(2);
     // ------------------------------------------------------------------------
     document.cookie = `token=${result}`;
-    // axios.put(`http://127.0.0.1:5100/publisher`, {
-    //   concierto: name,
-    //   mensaje: result,
-    // });
+    axios.put(`http://127.0.0.1:5100/publisher`, {
+      concierto: name,
+      mensaje: result,
+    });
   }
 
   return (

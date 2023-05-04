@@ -1,11 +1,30 @@
-import React, { useState } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import axios from "axios";
 import Concert from "../imports/Concert";
 
 export default function Formulario() {
   const { id } = useParams();
 
-  const concierto = Concert.find((c) => c.id == id);
+
+  const [concierto, setConcierto] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get("http://127.0.0.1:5001/informacion", {Id: id})
+      .then(async  (response) => {
+        setConcierto(response.data);
+        
+        console.log(concierto[0])
+        console.log(concierto[1])
+
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [id]);
+
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [selectedSeat, setSelectedSeat] = useState("");
@@ -38,14 +57,16 @@ export default function Formulario() {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(`Nombre: ${name}`);
-    console.log(`Rut: ${rut}`);
-    console.log(`Email: ${email}`);
-    console.log(`Edad: ${age}`);
-    console.log(`Asiento: ${selectedSeat}`);
-    console.log(`Id_concierto: ${concierto.id}`);
-    console.log(`Nombre_Concierto: ${concierto.cola}`);
-    console.log(`Token: ${token}`);
+    axios.post(`http://127.0.0.1:5001/subir`, {
+      Nombre: name,
+      Rut: rut,
+      Email: email,
+      Edad: age,
+      Asiento: selectedSeat,
+      Id_concierto: concierto.id,
+      Nombre_Concierto: concierto.cola,
+      Token: token
+    });
   };
   return (
     <form onSubmit={handleSubmit}>

@@ -11,7 +11,7 @@ const Concert = [
     name: "Metallica",
     description:
       "Metallica, Banda de rock estadounidense debutara en las canchas de santiago.",
-    date: "Thursday 23th may 2023",
+    date: "Lunes 20 de Noviembre del 2023",
     image: Image,
     cola: "metallica",
   },
@@ -20,7 +20,7 @@ const Concert = [
     name: "The Weeknd",
     description:
       "Metallica, Banda de rock estadounidense debutara en las canchas de santiago.",
-    date: "Thursday 28th may 2023",
+    date: "Viernes 1 de Diciembre del 2023",
     image: Weeknd,
     cola: "weeknd",
   },
@@ -29,7 +29,7 @@ const Concert = [
     name: "Siames",
     description:
       "Metallica, Banda de rock estadounidense debutara en las canchas de santiago.",
-    date: "Thursday 17th july 2023",
+    date: "Miércoles 28 de Junio del 2023",
     image: Siames,
     cola: "otros",
   },
@@ -38,7 +38,7 @@ const Concert = [
     name: "Molotov",
     description:
       "Metallica, Banda de rock estadounidense debutara en las canchas de santiago.",
-    date: "Thursday 23th may 2023",
+    date: "Domingo 20 de Agosto del 2023",
     image: molotov,
     cola: "otros",
   },
@@ -47,7 +47,7 @@ const Concert = [
     name: "Movimiento original",
     description:
       "Metallica, Banda de rock estadounidense debutara en las canchas de santiago.",
-    date: "Thursday 23th may 2023",
+    date: "Viernes 4 de Agosto del 2023",
     image: MovimientoOriginal,
     cola: "otros",
   },
@@ -56,7 +56,7 @@ const Concert = [
     name: "Chyste-MC",
     description:
       "Metallica, Banda de rock estadounidense debutara en las canchas de santiago.",
-    date: "Thursday 23th may 2023",
+    date: "Lunes 17 de Julio del 2023",
     image: Chystemc,
     cola: "otros",
   },

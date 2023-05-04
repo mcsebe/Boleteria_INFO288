@@ -58,6 +58,30 @@ def disponible(dbConnConfig, concierto):
 
     return resp
 
+def informacion(dbConnConfig, concierto):
+    resp=[]
+    try:
+        connection = get_connection_db(dbConnConfig)
+        cursor = connection.cursor()
+
+        sqlStatement = """SELECT * FROM concierto WHERE id = (%s)"""
+        cursor.execute(sqlStatement, [concierto])
+        resp = cursor.fetchall()
+        resp = [item for sublist in resp for item in sublist]
+
+    except (Exception, mariadb.Error) as error :
+        resp=str(error)
+        if(connection):
+            print("Failed select ", error)
+
+    finally:
+        #closing database connection.
+        if(connection):
+            cursor.close()
+            connection.close()
+
+    return resp
+
 
 def insert(dbConnConfig, dbConnConfig2, data):
     try:

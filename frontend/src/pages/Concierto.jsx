@@ -25,7 +25,7 @@ function Concierto() {
     const intervalId = setInterval(() => {
       if (data === "NO") {
         axios
-          .put("http://127.0.0.1:4000/token", {
+          .put("http://127.0.0.1:5200/token", {
             Token: token,
           })
           .then((response) => {
