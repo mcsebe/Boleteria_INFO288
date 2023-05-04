@@ -7,21 +7,45 @@ export default function Formulario() {
 
   const concierto = Concert.find((c) => c.id == id);
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [selectedSeat, setSelectedSeat] = useState("");
-
+  const [rut, setRut] = useState("");
+  const [age, setAge] = useState("");
+  const cookies = document.cookie.split(";");
+  // Busca la cookie con el nombre "token"
+  const tokenCookie = cookies.find((cookie) =>
+    cookie.trim().startsWith("token=")
+  );
+  // Si se encuentra la cookie, extrae el valor del token
+  let token = null;
+  if (tokenCookie) {
+    token = tokenCookie.split("=")[1];
+  }
+  const handleNameChange = (event) => {
+    setName(event.target.value);
+  };
+  const handleRutChange = (event) => {
+    setRut(event.target.value);
+  };
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
-
+  const handleAgeChange = (event) => {
+    setAge(event.target.value);
+  };
   const handleSeatChange = (event) => {
     setSelectedSeat(event.target.value);
   };
-
   const handleSubmit = (event) => {
     event.preventDefault();
+    console.log(`Nombre: ${name}`);
+    console.log(`Rut: ${rut}`);
     console.log(`Email: ${email}`);
-    console.log(`Selected seat: ${selectedSeat}`);
-    console.log(`Selected concert: ${concierto.name}`);
+    console.log(`Edad: ${age}`);
+    console.log(`Asiento: ${selectedSeat}`);
+    console.log(`Id_concierto: ${concierto.id}`);
+    console.log(`Nombre_Concierto: ${concierto.cola}`);
+    console.log(`Token: ${token}`);
   };
   return (
     <form onSubmit={handleSubmit}>
@@ -46,8 +70,8 @@ export default function Formulario() {
                 <input
                   type="fullname"
                   id="fullname"
-                  //value={fullname}
-                  //onChange={handleFullnameChange}
+                  value={name}
+                  onChange={handleNameChange}
                   placeholder="Ingrese su nombre completo"
                   className="w-full border rounded-md py-2 px-3 text-gray-900"
                   required
@@ -65,8 +89,8 @@ export default function Formulario() {
                 <input
                   type="rut"
                   id="rut"
-                  //value={rut}
-                  //onChange={handleRutChange}
+                  value={rut}
+                  onChange={handleRutChange}
                   placeholder="Ingrese su rut"
                   className="w-full border rounded-md py-2 px-3 text-gray-900"
                   required
@@ -84,8 +108,8 @@ export default function Formulario() {
                 <input
                   type="email"
                   id="email"
-                  //value={age}
-                  //onChange={handleAgeChange}
+                  value={email}
+                  onChange={handleEmailChange}
                   placeholder="Ingrese su Email"
                   className="w-full border rounded-md py-2 px-3 text-gray-900"
                   required
@@ -103,8 +127,8 @@ export default function Formulario() {
                 <input
                   type="age"
                   id="age"
-                  //value={rut}
-                  //onChange={handleRutChange}
+                  value={age}
+                  onChange={handleAgeChange}
                   placeholder="Ingrese su edad"
                   className="w-full border rounded-md py-2 px-3 text-gray-900"
                   required
@@ -121,8 +145,8 @@ export default function Formulario() {
               <div className="mt-2">
                 <select
                   id="seat"
-                  //value={selectedSeat}
-                  //onChange={handleSeatChange}
+                  value={selectedSeat}
+                  onChange={handleSeatChange}
                   className="w-full border rounded-md py-2 px-3 text-gray-900"
                   required
                 >

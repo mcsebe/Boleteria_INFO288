@@ -13,6 +13,7 @@ const Concert = [
       "Metallica, Banda de rock estadounidense debutara en las canchas de santiago.",
     date: "Thursday 23th may 2023",
     image: Image,
+    cola: "metallica",
   },
   {
     id: 2,
@@ -21,6 +22,7 @@ const Concert = [
       "Metallica, Banda de rock estadounidense debutara en las canchas de santiago.",
     date: "Thursday 28th may 2023",
     image: Weeknd,
+    cola: "weeknd",
   },
   {
     id: 3,
@@ -29,6 +31,7 @@ const Concert = [
       "Metallica, Banda de rock estadounidense debutara en las canchas de santiago.",
     date: "Thursday 17th july 2023",
     image: Siames,
+    cola: "otros",
   },
   {
     id: 4,
@@ -37,6 +40,7 @@ const Concert = [
       "Metallica, Banda de rock estadounidense debutara en las canchas de santiago.",
     date: "Thursday 23th may 2023",
     image: molotov,
+    cola: "otros",
   },
   {
     id: 5,
@@ -45,6 +49,7 @@ const Concert = [
       "Metallica, Banda de rock estadounidense debutara en las canchas de santiago.",
     date: "Thursday 23th may 2023",
     image: MovimientoOriginal,
+    cola: "otros",
   },
   {
     id: 6,
@@ -53,6 +58,7 @@ const Concert = [
       "Metallica, Banda de rock estadounidense debutara en las canchas de santiago.",
     date: "Thursday 23th may 2023",
     image: Chystemc,
+    cola: "otros",
   },
 ];
 
