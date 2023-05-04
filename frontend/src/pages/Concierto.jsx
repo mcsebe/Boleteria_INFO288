@@ -4,6 +4,7 @@ import Formulario from "../components/Formulario";
 import { data } from "autoprefixer";
 import Home from "./Home";
 import axios from "axios";
+import Loading from "../components/Loading";
 import { useState, useEffect } from 'react';
 
 function Concierto() {
@@ -20,26 +21,28 @@ function Concierto() {
     }
     
     const intervalId = setInterval(() => {
-      axios
-        .put("http://127.0.0.1:4000/token", {
-          Token: token,
-        })
-        .then((response) => {
-          setData(response.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      if (data === "NO") {
+        axios
+          .put("http://127.0.0.1:4000/token", {
+            Token: token,
+          })
+          .then((response) => {
+            setData(response.data);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
     }, 5000);
 
     return () => {
       clearInterval(intervalId);
     };
-  }, []);
+  }, [data]);
 
   return (
     <div className="mt-5 p-5">
-      {data === "SI" ? <Formulario />: <h1>COLA</h1>}
+      {data === "SI" ? <Formulario /> : <Loading />}
     </div>
   );
 }
