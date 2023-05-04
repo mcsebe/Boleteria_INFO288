@@ -4,26 +4,44 @@ import Formulario from "../components/Formulario";
 import { data } from "autoprefixer";
 import Home from "./Home";
 import axios from "axios";
+import { useState, useEffect } from 'react';
 
 function Concierto() {
-  let token = "";
-  axios
-    .put("http://127.0.0.1:5100/token", {
-      concierto: name,
-      mensaje: "123",
-    })
-    .then((response) => {
-      const data = response.data;
-      token = data;
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  console.log(token);
+  const [data, setData] = useState("NO");
+
+  useEffect(() => {
+    const cookies = document.cookie.split(';');
+    // Busca la cookie con el nombre "token"
+    const tokenCookie = cookies.find(cookie => cookie.trim().startsWith('token='));
+    // Si se encuentra la cookie, extrae el valor del token
+    let token = null;
+    if (tokenCookie) {
+      token = tokenCookie.split('=')[1];
+    }
+    
+    const intervalId = setInterval(() => {
+      axios
+        .put("http://127.0.0.1:4000/token", {
+          Token: token,
+        })
+        .then((response) => {
+          setData(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }, 5000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
+
   return (
     <div className="mt-5 p-5">
-      <Formulario />
+      {data === "SI" ? <Formulario />: <h1>COLA</h1>}
     </div>
   );
 }
+
 export default Concierto;

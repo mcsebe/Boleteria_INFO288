@@ -8,21 +8,11 @@ import time
 
 @app.route('/token', methods=['GET', 'PUT'])
 def Token():
-    r = request.get_json()
-    print("hola")
-    tokenid = r["mensaje"]
-    if tokenid:
-        if ("123" == tokenid):  # sysConfig["dbConnConfig"]
-            print("verda")
-            return ("v")
-        else:
-            print("falso")
-            time.sleep(10)
-            return redirect('/token')
+    token = request.json["Token"]
+    if token:
+        return model.token(sysConfig["dbConnConfig"],token)
     else:
-        print("no hay token")
-        time.sleep(10)
-        return redirect('/')
+        return "NO"
 
 
 @app.route('/concierto/<int:id>')

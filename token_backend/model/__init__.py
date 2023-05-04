@@ -11,15 +11,14 @@ def get_connection_db(conn):
 ###############################################################################
 
 
-def token(dbConnConfig, data):
+def token(dbConnConfig, token):
     resp=[]
     try:
         connection = get_connection_db(dbConnConfig)
         cursor = connection.cursor()
-        sqlStatement = """SELECT * FROM token where valor = %s"""
-        cursor.execute(sqlStatement, [token])
+        sqlStatement = 'SELECT * FROM token WHERE Valor ="' + token + '"'
+        cursor.execute(sqlStatement)
         resp = cursor.fetchall()
-        resp = [item for sublist in resp for item in sublist]
 
     except (Exception, mariadb.Error) as error :
         resp=[]
@@ -32,10 +31,11 @@ def token(dbConnConfig, data):
             cursor.close()
             connection.close()
             print("MariaDB connection is closed")
-    if resp != []:
-        return True
+    print(resp)
+    if len(resp) == 1:
+        return "SI"
     else:
-        return False
+        return "NO"
 
 
 

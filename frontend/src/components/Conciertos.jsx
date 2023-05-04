@@ -5,17 +5,16 @@ import axios from "axios";
 
 const Conciertos = () => {
   function sendInformation(name) {
-    //----------------------- CAMBIAR ----------------------------------------
-    // let result =
-    //   Math.random().toString(36).substr(2) +
-    //   Math.random().toString(36).substr(2);
-    // // ------------------------------------------------------------------------
-    // document.cookie = `token=${result}`;
+    // ----------------------- CAMBIAR ----------------------------------------
+    let result =
+      Math.random().toString(36).substr(2) +
+      Math.random().toString(36).substr(2);
+    // ------------------------------------------------------------------------
+    document.cookie = `token=${result}`;
     // axios.put(`http://127.0.0.1:5100/publisher`, {
     //   concierto: name,
     //   mensaje: result,
     // });
-    console.log("publisher");
   }
 
   return (
