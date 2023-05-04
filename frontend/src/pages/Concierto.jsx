@@ -2,9 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import Formulario from "../components/Formulario";
 import { data } from "autoprefixer";
-import Loading from "./Loading";
 import axios from "axios";
-
 import Loading from "../components/Loading";
 import { useState, useEffect } from 'react';
 
@@ -32,10 +30,23 @@ function Concierto() {
           })
           .then((response) => {
             setData(response.data);
+            if (response.data === "SI") {
+              // Establecer el tiempo de expiración de la cookie a 5 minutos
+              document.cookie = `token=${token}; max-age=300`;
+            }
           })
           .catch((error) => {
             console.log(error);
           });
+      }
+      if(data === "SI"){
+        const cookies = document.cookie.split(";");
+        const tokenCookie = cookies.find((cookie) =>
+          cookie.trim().startsWith("token=")
+        );
+        if (!tokenCookie) {
+          setData("NO")
+        }
       }
     }, 5000);
 
