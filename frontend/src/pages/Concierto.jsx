@@ -2,24 +2,28 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import Formulario from "../components/Formulario";
 import { data } from "autoprefixer";
-import Home from "./Home";
+import Loading from "./Loading";
 import axios from "axios";
+
 import Loading from "../components/Loading";
 import { useState, useEffect } from 'react';
+
 
 function Concierto() {
   const [data, setData] = useState("NO");
 
   useEffect(() => {
-    const cookies = document.cookie.split(';');
+    const cookies = document.cookie.split(";");
     // Busca la cookie con el nombre "token"
-    const tokenCookie = cookies.find(cookie => cookie.trim().startsWith('token='));
+    const tokenCookie = cookies.find((cookie) =>
+      cookie.trim().startsWith("token=")
+    );
     // Si se encuentra la cookie, extrae el valor del token
     let token = null;
     if (tokenCookie) {
-      token = tokenCookie.split('=')[1];
+      token = tokenCookie.split("=")[1];
     }
-    
+
     const intervalId = setInterval(() => {
       if (data === "NO") {
         axios
