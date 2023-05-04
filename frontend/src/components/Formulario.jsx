@@ -2,6 +2,10 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from 'react';
 import axios from "axios";
+import metallica from "../assets/metallica"
+import wee from "../assets/the_weeknd_logo"
+import metallica from "../assets/metallica"
+import metallica from "../assets/metallica"
 import Concert from "../imports/Concert";
 
 export default function Formulario() {
@@ -12,8 +16,8 @@ export default function Formulario() {
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:5001/informacion", {Id: id})
-      .then(async  (response) => {
+      .post("http://127.0.0.1:5001/informacion", {Id: id})
+      .then((response) => {
         setConcierto(response.data);
         
         console.log(concierto[0])
@@ -189,12 +193,12 @@ export default function Formulario() {
           <div className="flex flex-col">
             <img
               className="w-full h-[15rem]  md:mx-auto mx-0 md:mb-8 mb-0 mr-8 rounded-md"
-              src={concierto.image}
-              alt={concierto.name}
+              src={metallica}
+              alt={concierto[1][2]}
             />
             <p className="mt-5 md:mt-1 text-sm leading-6 text-gray-600">
-              {concierto.description} <br /> Fecha del concierto:{" "}
-              {concierto.date}
+              Precio: {concierto[1][2]} <br /> Fecha del concierto:{" "}
+              {concierto[1][3]}
             </p>
             <button
               type="submit"

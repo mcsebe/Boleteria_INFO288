@@ -1,5 +1,6 @@
 from flask import Flask, json
 import time,sys
+from flask_cors import CORS, cross_origin
 
 
 def read_config():
@@ -18,4 +19,5 @@ def read_config():
 
 #CONSTANTE DEL SISTEMA
 app = Flask(__name__)
+CORS(app)
 sysConfig = read_config()

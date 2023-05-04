@@ -27,7 +27,7 @@ def getDisponibles():
     ocupados = set(model.disponible(sysConfig["dbConnConfig"], concierto))
     return list(total - ocupados)
 
-@app.route('/informacion', methods=['GET']) 
+@app.route('/informacion', methods=['GET', 'POST']) 
 def getInformacion():
     concierto = int(request.json["Id"])
     total = set(range(1, model.capacidad(sysConfig["dbConnConfig"], concierto)[0] + 1))
