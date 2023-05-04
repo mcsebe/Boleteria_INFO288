@@ -82,6 +82,30 @@ def informacion(dbConnConfig, concierto):
 
     return resp
 
+def localizacion(dbConnConfig, concierto):
+    resp=[]
+    try:
+        connection = get_connection_db(dbConnConfig)
+        cursor = connection.cursor()
+
+        sqlStatement = """SELECT * FROM locacion JOIN concierto ON locacion.id = concierto.id_locacion WHERE concierto.id = (%s)"""
+        cursor.execute(sqlStatement, [concierto])
+        resp = cursor.fetchall()
+        resp = [item for sublist in resp for item in sublist]
+
+    except (Exception, mariadb.Error) as error :
+        resp=str(error)
+        if(connection):
+            print("Failed select ", error)
+
+    finally:
+        #closing database connection.
+        if(connection):
+            cursor.close()
+            connection.close()
+
+    return resp
+
 
 def insert(dbConnConfig, dbConnConfig2, data):
     try:
@@ -111,7 +135,7 @@ def insert(dbConnConfig, dbConnConfig2, data):
 
         sqlStatement = """INSERT INTO reserva (Asiento, Nombre, Rut, Edad, Correo, id_concierto) VALUES (%s, %s, %s, %s, %s, %s)"""
 
-        cursor.execute(sqlStatement, (int(data["Asiento"]), data["Nombre"], data["Rut"], int(data["Edad"]), data["Correo"], int(data["id_concierto"])))
+        cursor.execute(sqlStatement, (int(data["Asiento"]), data["Nombre"], data["Rut"], int(data["Edad"]), data["Correo"], int(data["Id_concierto"])))
         connection.commit()
         resp["inserted_rows"] = cursor.rowcount
 
@@ -128,5 +152,5 @@ def insert(dbConnConfig, dbConnConfig2, data):
 
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='127.0.0.1'))
     channel = connection.channel()
-    channel.basic_publish(exchange='', routing_key="desencolar", body = data["NombreConcierto"])
+    channel.basic_publish(exchange='', routing_key="desencolar", body = data["Nombre_Concierto"])
     return resp

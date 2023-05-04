@@ -10,25 +10,9 @@ import MovimientoOriginal from "../assets/movimientoOriginal.png";
 import Chystemc from "../assets/Chystemc.png";
 import Concert from "../imports/Concert";
 
-export default function Formulario() {
-  const { id } = useParams();
+export default function Formulario(props) {
 
-
-  const [concierto, setConcierto] = useState(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.post("http://127.0.0.1:5001/informacion", {Id: id});
-        setConcierto(response.data);
-        console.log(concierto[0])
-        console.log(concierto[1])
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    fetchData();
-  }, [id]);
+  const imagenes = [Image, Weeknd, Siames, molotov, MovimientoOriginal, Chystemc];
 
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -60,18 +44,20 @@ export default function Formulario() {
   const handleSeatChange = (event) => {
     setSelectedSeat(event.target.value);
   };
+  // -----------------------------------------------------
   const handleSubmit = (event) => {
     event.preventDefault();
     axios.post(`http://127.0.0.1:5001/subir`, {
       Nombre: name,
       Rut: rut,
-      Email: email,
+      Correo: email,
       Edad: age,
-      Asiento: selectedSeat,
-      Id_concierto: concierto.id,
-      Nombre_Concierto: concierto.cola,
+      Asiento: parseInt(selectedSeat),
+      Id_concierto: parseInt(props.concierto[1][0]),
+      Nombre_Concierto: props.concierto[1][5],
       Token: token
     });
+    window.location.href = "/";
   };
   return (
     <form onSubmit={handleSubmit}>
@@ -179,12 +165,9 @@ export default function Formulario() {
                   <option value="" disabled>
                     Seleccione un asiento
                   </option>
-                  <option value="A1">A1</option>
-                  <option value="A2">A2</option>
-                  <option value="A3">A3</option>
-                  <option value="B1">B1</option>
-                  <option value="B2">B2</option>
-                  <option value="B3">B3</option>
+                  { props.concierto[0].map(asiento => (
+                    <option value={asiento}>{asiento}</option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -194,13 +177,21 @@ export default function Formulario() {
           <div className="flex flex-col">
             <img
               className="w-full h-[15rem]  md:mx-auto mx-0 md:mb-8 mb-0 mr-8 rounded-md"
-              src={Image}
-              // alt={concierto[1][2]}
+              src={imagenes[props.concierto[1][0] - 1]}
+              alt={props.concierto[1][2]}
             />
-            {/* <p className="mt-5 md:mt-1 text-sm leading-6 text-gray-600">
-              Precio: {concierto[1][2]} <br /> Fecha del concierto:{" "}
-              {concierto[1][3]}
-            </p> */}
+            <h3>Información General</h3>
+            <p className="mt-5 md:mt-1 text-sm leading-6 text-gray-600">
+              Nombre: {props.concierto[1][1]}<br /> 
+              Precio: ${props.concierto[1][2]} <br /> 
+              Fecha del concierto: {props.concierto[1][3]}
+            </p>
+            <h3>Ubicación</h3>
+            <p className="mt-5 md:mt-1 text-sm leading-6 text-gray-600">
+              Lugar: {props.concierto[2][1]}<br /> 
+              Ciudad: {props.concierto[2][2]} <br /> 
+              Región: {props.concierto[2][3]}
+            </p>
             <button
               type="submit"
               className="bg-green-500 mt-5 text-white rounded-md py-2 px-5 hover:bg-green-600"
