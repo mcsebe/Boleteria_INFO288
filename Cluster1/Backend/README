@@ -3,6 +3,5 @@
 2. Activar el entorno virtual con el comando ".\flask\Scripts\activate"
 3. Intalar requeriments.txt con el comando "pip install -r requirements.txt -v"
 4. Ejecutar:
-    1. Abrir 4 terminales e inicializar el entorno en todas (si es que no se encuentra inicializado) con el comando ".\flask\Scripts\activate" en windows o en linux con ". flask/bin/activate"
-    2. En la primera terminal ir a la carpeta master con el comando "cd master" y ejecutar el comando "flask run -p 5001"
+    En la terminal ejecutar el comando "flask run -p 5001"
     
