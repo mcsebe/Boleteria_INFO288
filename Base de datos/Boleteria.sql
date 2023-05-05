@@ -24,15 +24,21 @@ CREATE TABLE IF NOT EXISTS `concierto` (
   `Precio` int(11) NOT NULL,
   `Fecha` datetime NOT NULL,
   `id_locacion` int(11) NOT NULL,
+  `Cola` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_locacion` (`id_locacion`),
   CONSTRAINT `FK_concierto_locacion` FOREIGN KEY (`id_locacion`) REFERENCES `locacion` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3;
 
--- Volcando datos para la tabla boleteria.concierto: ~1 rows (aproximadamente)
+-- Volcando datos para la tabla boleteria.concierto: ~6 rows (aproximadamente)
 /*!40000 ALTER TABLE `concierto` DISABLE KEYS */;
-INSERT INTO `concierto` (`id`, `Nombre`, `Precio`, `Fecha`, `id_locacion`) VALUES
-	(3, 'adsdas', 1111, '2023-04-28 17:11:52', 1);
+INSERT INTO `concierto` (`id`, `Nombre`, `Precio`, `Fecha`, `id_locacion`, `Cola`) VALUES
+	(1, 'Metallica', 40000, '2023-11-20 17:00:00', 1, 'metallica'),
+	(2, 'The Weeknd', 40000, '2023-12-01 18:30:00', 1, 'weeknd'),
+	(3, 'Siames', 15000, '2023-06-28 18:00:00', 1, 'otros'),
+	(4, 'Molotov', 20000, '2023-08-20 19:00:00', 1, 'otros'),
+	(5, 'Movimiento Original', 12000, '2023-08-04 20:00:00', 1, 'otros'),
+	(6, 'Chyste-MC', 12000, '2023-07-17 19:00:00', 1, 'otros');
 /*!40000 ALTER TABLE `concierto` ENABLE KEYS */;
 
 -- Volcando estructura para tabla boleteria.locacion
@@ -48,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `locacion` (
 -- Volcando datos para la tabla boleteria.locacion: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `locacion` DISABLE KEYS */;
 INSERT INTO `locacion` (`id`, `Nombre`, `Ciudad`, `Region`, `Capacidad`) VALUES
-	(1, 'werwer', 'weew', 'werrwe', 100);
+	(1, 'Estadio Nacional', 'Santiago', 'Metropolitana', 100);
 /*!40000 ALTER TABLE `locacion` ENABLE KEYS */;
 
 -- Volcando estructura para tabla boleteria.reserva
@@ -63,10 +69,13 @@ CREATE TABLE IF NOT EXISTS `reserva` (
   PRIMARY KEY (`id`),
   KEY `id_concierto` (`id_concierto`),
   CONSTRAINT `FK_reserva_concierto` FOREIGN KEY (`id_concierto`) REFERENCES `concierto` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
 
 -- Volcando datos para la tabla boleteria.reserva: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `reserva` DISABLE KEYS */;
+INSERT INTO `reserva` (`id`, `Asiento`, `Nombre`, `Rut`, `Edad`, `Correo`, `id_concierto`) VALUES
+	(1, 1, 'Qwewe Asdsd', '1233223-1', 24, 'qwdqwdd@qwdqwd', 2),
+	(3, 6, 'dqwdqw', '1232112', 23, 'dwqdwq@dqwweewf', 2);
 /*!40000 ALTER TABLE `reserva` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

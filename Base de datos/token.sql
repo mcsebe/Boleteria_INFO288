@@ -27,6 +27,8 @@ CREATE TABLE IF NOT EXISTS `token` (
 
 -- Volcando datos para la tabla token.token: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `token` DISABLE KEYS */;
+INSERT INTO `token` (`Valor`, `Fecha`, `Cola`) VALUES
+	('vs7ikthet8rjmpx2b3jm6k', 1683244335, 'weeknd');
 /*!40000 ALTER TABLE `token` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
