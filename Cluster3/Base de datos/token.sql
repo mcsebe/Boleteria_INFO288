@@ -17,6 +17,18 @@
 CREATE DATABASE IF NOT EXISTS `token` /*!40100 DEFAULT CHARACTER SET utf8mb3 */;
 USE `token`;
 
+-- Volcando estructura para tabla token.all_tokens
+CREATE TABLE IF NOT EXISTS `all_tokens` (
+  `Valor` varchar(50) NOT NULL DEFAULT 'hola',
+  `Fecha` datetime DEFAULT NULL,
+  `Cola` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`Valor`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+-- Volcando datos para la tabla token.all_tokens: ~0 rows (aproximadamente)
+/*!40000 ALTER TABLE `all_tokens` DISABLE KEYS */;
+/*!40000 ALTER TABLE `all_tokens` ENABLE KEYS */;
+
 -- Volcando estructura para tabla token.token
 CREATE TABLE IF NOT EXISTS `token` (
   `Valor` varchar(50) NOT NULL DEFAULT 'hola',

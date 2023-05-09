@@ -25,6 +25,8 @@ queue2 = 'weeknd'
 queue3 = 'otros'
 queue4 = 'desencolar'
 
+formato = "%H:%M:%S;%d/%m/%Y"
+
 counters = {
     queue1: 0,
     queue2: 0,
@@ -60,9 +62,13 @@ while True:
                     cursor.execute(sqlStatement, (body.decode(), timestamp_futuro, queue))
                     connection.commit()
                     
+                    sqlStatement = """INSERT INTO all_tokens (Valor, Fecha, Cola) VALUES (%s, %s, %s)"""
+
+                    cursor.execute(sqlStatement, (body.decode(), datetime.now(), queue))
+                    connection.commit()
+
                     # ----------------------------------------------------------------------------
                     fecha_hora_actual = datetime.now()
-                    formato = "%H:%M:%S;%d/%m/%Y"
                     fecha_hora_formateada = fecha_hora_actual.strftime(formato)
 
                     #Ruta en windows
