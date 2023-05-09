@@ -1,5 +1,7 @@
 import mariadb
 import pika
+from datetime import datetime
+import os
 
 ###############################################################################
 def get_connection_db(conn):
@@ -108,6 +110,17 @@ def localizacion(dbConnConfig, concierto):
 
 
 def insert(dbConnConfig, dbConnConfig2, data):
+
+    formato = "%H:%M:%S;%d/%m/%Y"
+    #Ruta en windows
+    archivoW = os.getcwd() + "\\Log\\"+ "logs.txt"
+    try:
+        file = open(archivoW, 'a+')
+    #Ruta en linux
+    except:
+        archivoL = os.getcwd() + "/files/"+ "logs.txt"
+        file = open(archivoL, 'a+')
+
     try:
         connection = get_connection_db(dbConnConfig2)
         cursor = connection.cursor()
@@ -117,6 +130,10 @@ def insert(dbConnConfig, dbConnConfig2, data):
 
         cursor.execute(sqlStatement)
         connection.commit()
+
+        fecha_hora_actual = datetime.now()
+        fecha_hora_formateada = fecha_hora_actual.strftime(formato)
+        file.write(fecha_hora_formateada + "; Eliminando token " +  data["Token"] + " de la base de datos \n")
 
     except (Exception, mariadb.Error) as error :
         if(connection):
@@ -139,6 +156,11 @@ def insert(dbConnConfig, dbConnConfig2, data):
         connection.commit()
         resp["inserted_rows"] = cursor.rowcount
 
+        fecha_hora_actual = datetime.now()
+        fecha_hora_formateada = fecha_hora_actual.strftime(formato)
+        file.write(fecha_hora_formateada + "; Insertando en la tabla reserva "  + str(data["Asiento"]) + ";" + data["Nombre"] + ";" + data["Rut"] + ";"  + str(data["Edad"]) + ";" + data["Correo"] + ";" + str(data["Id_concierto"]) + "\n")
+
+
     except (Exception, mariadb.Error) as error :
         resp=str(error)
         if(connection):
@@ -153,4 +175,20 @@ def insert(dbConnConfig, dbConnConfig2, data):
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='127.0.0.1'))
     channel = connection.channel()
     channel.basic_publish(exchange='', routing_key="desencolar", body = data["Nombre_Concierto"])
+
+    fecha_hora_actual = datetime.now()
+    fecha_hora_formateada = fecha_hora_actual.strftime(formato)
+    file.write(fecha_hora_formateada + "; Enviando mensaje para desencolar;" + data["Nombre_Concierto"] +"\n")
+
+    file.close()
+
     return resp
+
+
+    # # ----------------------------------------------------------------------------
+    # fecha_hora_actual = datetime.now()
+    # fecha_hora_formateada = fecha_hora_actual.strftime(formato)
+
+    # file.write(fecha_hora_formateada + "; Encolando token " + mensaje + ";" + ruta + "\n")
+    # file.close()
+    # # ----------------------------------------------------------------------------

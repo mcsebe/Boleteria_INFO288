@@ -3,6 +3,7 @@ import pika
 from flask import Flask, request, jsonify,json
 from common import *
 import model
+import os
 
 from flask_cors import CORS, cross_origin
 
@@ -28,11 +29,11 @@ def getPublisher():
     if data["concierto"] and data["mensaje"]:
         try:
             # Sacar request si no lo vamos a usar
-            model.encolar(request, sysConfig[data["concierto"]], data["mensaje"], channel)
+            model.encolar(sysConfig[data["concierto"]], data["mensaje"], channel)
             return "Encolado"
         except:
             # Sacar request si no lo vamos a usar
-            model.encolar(request, sysConfig["Otros"], data["mensaje"], channel)
+            model.encolar(sysConfig["Otros"], data["mensaje"], channel)
             return "Encolado"
     else:
         print('Parametros incorrectos.')

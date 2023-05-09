@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\gluar\OneDrive\Escritorio\UACH 2023-1\Asignaturas\Sistema distribuido\Boleteria_INFO288\Backend\flask"
+VIRTUAL_ENV="C:\Users\gluar\OneDrive\Escritorio\UACH 2023-1\Asignaturas\Sistema distribuido\Boleteria_INFO288\Cluster1\Backend\flask"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

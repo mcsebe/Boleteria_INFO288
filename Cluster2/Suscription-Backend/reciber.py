@@ -59,7 +59,24 @@ while True:
 
                     cursor.execute(sqlStatement, (body.decode(), timestamp_futuro, queue))
                     connection.commit()
-                    print(body.decode() + "  " + queue + "  " + str(counters[queue]))
+                    
+                    # ----------------------------------------------------------------------------
+                    fecha_hora_actual = datetime.now()
+                    formato = "%H:%M:%S;%d/%m/%Y"
+                    fecha_hora_formateada = fecha_hora_actual.strftime(formato)
+
+                    #Ruta en windows
+                    archivoW = os.getcwd() + "\\Log\\"+ "logs.txt"
+                    try:
+                        file = open(archivoW, 'a+')
+                    #Ruta en linux
+                    except:
+                        archivoL = os.getcwd() + "/files/"+ "logs.txt"
+                        file = open(archivoL, 'a+')
+
+                    file.write(fecha_hora_formateada + "; Añadiendo token " + body.decode() + " a la base de datos;" + str(timestamp_futuro) + ";" + queue + "\n")
+                    file.close()
+                    # ----------------------------------------------------------------------------
 
                 except (Exception, mariadb.Error) as error :
                     if(connection):
@@ -78,6 +95,23 @@ while True:
                 counters[body.decode()] -= 1
                 if(counters[body.decode()] < 0):
                     counters[body.decode()] = 0 
-                print("--------------" + body.decode() + "--------------------- " + str(counters[body.decode()]))
+
+                # ----------------------------------------------------------------------------
+                fecha_hora_actual = datetime.now()
+                formato = "%H:%M:%S;%d/%m/%Y"
+                fecha_hora_formateada = fecha_hora_actual.strftime(formato)
+
+                #Ruta en windows
+                archivoW = os.getcwd() + "\\Log\\"+ "logs.txt"
+                try:
+                    file = open(archivoW, 'a+')
+                #Ruta en linux
+                except:
+                    archivoL = os.getcwd() + "/files/"+ "logs.txt"
+                    file = open(archivoL, 'a+')
+
+                file.write(fecha_hora_formateada + "; Dejar pasar otro token;" + body.decode() + "\n")
+                file.close()
+                # ----------------------------------------------------------------------------
             else:
                 pass

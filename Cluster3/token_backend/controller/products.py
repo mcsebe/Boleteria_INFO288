@@ -10,21 +10,6 @@ import time
 def Token():
     token = request.json["Token"]
     if token:
-        return model.token(sysConfig["dbConnConfig"],token)
+        return model.token(sysConfig["dbConnConfig"],token, sysConfig["server_name"])
     else:
         return "NO"
-
-
-@app.route('/concierto/<int:id>')
-def PaginaDePago():
-    r = request.get_json()
-    tokenid = r["mensaje"]
-    if tokenid:
-        if (model.token("123", tokenid)):  # sysConfig["dbConnConfig"]
-            return render_template('')
-        else:
-            time.sleep(10)
-            return redirect('/')
-    else:
-        time.sleep(10)
-        return redirect('/')
