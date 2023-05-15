@@ -1,18 +1,23 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import axios from "axios";
 import Image from "../assets/metallica_logo.webp";
 import Weeknd from "../assets/the_weeknd_logo.webp";
 import Siames from "../assets/siames2.jpg";
 import molotov from "../assets/molotov.jpg";
 import MovimientoOriginal from "../assets/movimientoOriginal.png";
-import Chystemc from "../assets/Chystemc.png";
-import Concert from "../imports/Concert";
+import Chystemc from "../assets/chystemc.png";
 
 export default function Formulario(props) {
-
-  const imagenes = [Image, Weeknd, Siames, molotov, MovimientoOriginal, Chystemc];
+  const imagenes = [
+    Image,
+    Weeknd,
+    Siames,
+    molotov,
+    MovimientoOriginal,
+    Chystemc,
+  ];
 
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -55,7 +60,7 @@ export default function Formulario(props) {
       Asiento: parseInt(selectedSeat),
       Id_concierto: parseInt(props.concierto[1][0]),
       Nombre_Concierto: props.concierto[1][5],
-      Token: token
+      Token: token,
     });
     window.location.href = "/";
   };
@@ -165,7 +170,7 @@ export default function Formulario(props) {
                   <option value="" disabled>
                     Seleccione un asiento
                   </option>
-                  { props.concierto[0].map(asiento => (
+                  {props.concierto[0].map((asiento) => (
                     <option value={asiento}>{asiento}</option>
                   ))}
                 </select>
@@ -182,14 +187,16 @@ export default function Formulario(props) {
             />
             <h3>Información General</h3>
             <p className="mt-5 md:mt-1 text-sm leading-6 text-gray-600">
-              Nombre: {props.concierto[1][1]}<br /> 
-              Precio: ${props.concierto[1][2]} <br /> 
+              Nombre: {props.concierto[1][1]}
+              <br />
+              Precio: ${props.concierto[1][2]} <br />
               Fecha del concierto: {props.concierto[1][3]}
             </p>
             <h3>Ubicación</h3>
             <p className="mt-5 md:mt-1 text-sm leading-6 text-gray-600">
-              Lugar: {props.concierto[2][1]}<br /> 
-              Ciudad: {props.concierto[2][2]} <br /> 
+              Lugar: {props.concierto[2][1]}
+              <br />
+              Ciudad: {props.concierto[2][2]} <br />
               Región: {props.concierto[2][3]}
             </p>
             <button

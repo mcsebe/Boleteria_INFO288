@@ -1,0 +1,14 @@
+version: "3.9"
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: /Publisher-Backend/Dockerfile
+    ports:
+      - "5100:5100"
+  backend:
+    build:
+      context: .
+      dockerfile: /Suscription-Backend/Dockerfile
+    ports:
+      - "80:80"

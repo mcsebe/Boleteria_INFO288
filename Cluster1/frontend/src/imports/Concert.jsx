@@ -3,7 +3,7 @@ import Weeknd from "../assets/the_weeknd_logo.webp";
 import Siames from "../assets/siames2.jpg";
 import molotov from "../assets/molotov.jpg";
 import MovimientoOriginal from "../assets/movimientoOriginal.png";
-import Chystemc from "../assets/Chystemc.png";
+import Chystemc from "../assets/chystemc.png";
 
 const Concert = [
   {
