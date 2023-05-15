@@ -5,11 +5,10 @@ import axios from "axios";
 
 const Conciertos = () => {
   function sendInformation(name) {
-    // ----------------------- CAMBIAR ----------------------------------------
+    // Se genera un token, se deja en el navegador del usuario como una cookie y se envía el mismo al backend publisher
     let result =
       Math.random().toString(36).substr(2) +
       Math.random().toString(36).substr(2);
-    // ------------------------------------------------------------------------
     document.cookie = `token=${result}`;
     axios.put(`http://127.0.0.1:5100/publisher`, {
       concierto: name,

@@ -20,7 +20,6 @@ def read_config():
     with open(configFile) as json_file:
         data = json.load(json_file)
     return data
-###############################################################################
 
 
 # CONSTANTE DEL SISTEMA

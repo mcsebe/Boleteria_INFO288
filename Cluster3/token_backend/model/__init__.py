@@ -13,8 +13,10 @@ def get_connection_db(conn):
 ###############################################################################
 
 
+# Función que realiza la consulta a la base de datos por un token en específico
 def token(dbConnConfig, token, name):
     resp=[]
+    # Realiza la consulta a la base de datos
     try:
         connection = get_connection_db(dbConnConfig)
         cursor = connection.cursor()
@@ -34,6 +36,7 @@ def token(dbConnConfig, token, name):
             connection.close()
             print("MariaDB connection is closed")
 
+    # Escribe en el log de eventos
     # ----------------------------------------------------------------------------
     fecha_hora_actual = datetime.now()
     formato = "%H:%M:%S;%d/%m/%Y"
@@ -49,6 +52,7 @@ def token(dbConnConfig, token, name):
         file = open(archivoL, 'a+')
     # ----------------------------------------------------------------------------
 
+    # Si el token existe retorna "SI", en caso contrario retorna "NO"
     if len(resp) == 1:
 
         file.write(fecha_hora_formateada + "; Consulta sobre token " + token + ";SI;" + name + "\n")

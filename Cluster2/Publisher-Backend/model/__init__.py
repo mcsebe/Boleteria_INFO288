@@ -3,8 +3,9 @@ from datetime import datetime
 import os
 
 
-# Sacar request si no lo vamos a usar
+# Función que envía el token a la cola correspondiente
 def encolar(ruta, mensaje, channel):
+    # Escribe en el log de eventos
     # ----------------------------------------------------------------------------
     fecha_hora_actual = datetime.now()
     formato = "%H:%M:%S;%d/%m/%Y"

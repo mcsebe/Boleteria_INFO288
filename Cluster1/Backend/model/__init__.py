@@ -13,6 +13,7 @@ def get_connection_db(conn):
 
 ###############################################################################
 
+# Función que retorna la capacidad del lugar donde se realizará el concierto
 def capacidad(dbConnConfig, concierto):
     resp=[]
     try:
@@ -29,13 +30,13 @@ def capacidad(dbConnConfig, concierto):
             print("Failed select ", error)
 
     finally:
-        #closing database connection.
         if(connection):
             cursor.close()
             connection.close()
 
     return resp
 
+# Función que retorna los asientos ya reservados de un concierto
 def disponible(dbConnConfig, concierto):
     resp=[]
     try:
@@ -53,13 +54,13 @@ def disponible(dbConnConfig, concierto):
             print("Failed select ", error)
 
     finally:
-        #closing database connection.
         if(connection):
             cursor.close()
             connection.close()
 
     return resp
 
+# Función que retorna la información general de un concierto que se encuentra en la base de datos
 def informacion(dbConnConfig, concierto):
     resp=[]
     try:
@@ -77,13 +78,13 @@ def informacion(dbConnConfig, concierto):
             print("Failed select ", error)
 
     finally:
-        #closing database connection.
         if(connection):
             cursor.close()
             connection.close()
 
     return resp
 
+# Función que retorna la localización en la que se realizará un concierto
 def localizacion(dbConnConfig, concierto):
     resp=[]
     try:
@@ -101,16 +102,16 @@ def localizacion(dbConnConfig, concierto):
             print("Failed select ", error)
 
     finally:
-        #closing database connection.
         if(connection):
             cursor.close()
             connection.close()
 
     return resp
 
-
+# Función que inserta en la base de datos la información de la reserva, elimina el token correspondiente y envía un mensaje a la cola
 def insert(dbConnConfig, dbConnConfig2, data):
 
+    # Escribe en el log de eventos
     formato = "%H:%M:%S;%d/%m/%Y"
     #Ruta en windows
     archivoW = os.getcwd() + "\\Log\\"+ "logs.txt"
@@ -121,6 +122,7 @@ def insert(dbConnConfig, dbConnConfig2, data):
         archivoL = os.getcwd() + "/files/"+ "logs.txt"
         file = open(archivoL, 'a+')
 
+    # Elimina el token que correspondiente al usuario
     try:
         connection = get_connection_db(dbConnConfig2)
         cursor = connection.cursor()
@@ -146,6 +148,8 @@ def insert(dbConnConfig, dbConnConfig2, data):
             connection.close()
 
     resp={"inserted_rows":-1}
+
+    # Se inserta la información del formulario en la base de datos
     try:
         connection = get_connection_db(dbConnConfig)
         cursor = connection.cursor()
@@ -172,6 +176,7 @@ def insert(dbConnConfig, dbConnConfig2, data):
             cursor.close()
             connection.close()
 
+    # Se envía un mensaje para que se desencole un nuevo usuario
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='127.0.0.1'))
     channel = connection.channel()
     channel.basic_publish(exchange='', routing_key="desencolar", body = data["Nombre_Concierto"])
@@ -183,12 +188,3 @@ def insert(dbConnConfig, dbConnConfig2, data):
     file.close()
 
     return resp
-
-
-    # # ----------------------------------------------------------------------------
-    # fecha_hora_actual = datetime.now()
-    # fecha_hora_formateada = fecha_hora_actual.strftime(formato)
-
-    # file.write(fecha_hora_formateada + "; Encolando token " + mensaje + ";" + ruta + "\n")
-    # file.close()
-    # # ----------------------------------------------------------------------------

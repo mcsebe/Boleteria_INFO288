@@ -21,6 +21,7 @@ for i in sysConfig:
     channel.queue_declare(queue=sysConfig[i])
     
 
+# Ruta que envía el token recibido a la cola correspondiente
 @app.route('/publisher', methods=['PUT']) 
 def getPublisher():
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='127.0.0.1'))
@@ -28,11 +29,9 @@ def getPublisher():
     data = request.json
     if data["concierto"] and data["mensaje"]:
         try:
-            # Sacar request si no lo vamos a usar
             model.encolar(sysConfig[data["concierto"]], data["mensaje"], channel)
             return "Encolado"
         except:
-            # Sacar request si no lo vamos a usar
             model.encolar(sysConfig["Otros"], data["mensaje"], channel)
             return "Encolado"
     else:
