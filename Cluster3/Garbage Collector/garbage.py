@@ -5,14 +5,17 @@ from datetime import datetime, timedelta
 from common import *
 
 ###############################################################################
+
+
 def get_connection_db(conn):
     return mariadb.connect(user=conn["user"],
-                            password=conn["pass"],
-                            host=conn["host"],
-                            port=conn["port"],
-                            database=conn["database"])
+                           password=conn["pass"],
+                           host=conn["host"],
+                           port=conn["port"],
+                           database=conn["database"])
 
 ###############################################################################
+
 
 # Se establece la conexión con RabbitMQ
 connectionQ = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
@@ -20,20 +23,21 @@ channel = connectionQ.channel()
 
 # Variables que se utilizarán
 queue = 'desencolar'
-formato = "%H:%M:%S;%d/%m/%Y"
+format = "%H:%M:%S;%d/%m/%Y"
 
 channel.queue_declare(queue=queue)
 
 
 # Función que se ejecuta permanente mente y elimina de la base de datos los tokens expirados
 while True:
-    resp=[]
+    resp = []
     try:
         # Realiza una consulta a la base de datos, obteniendo los tokens expirados
         connection = get_connection_db(dbConnConfig["dbConnConfig"])
         cursor = connection.cursor()
 
-        sqlStatement = "SELECT * FROM token WHERE Fecha <= " + str(int(time.time()))
+        sqlStatement = "SELECT * FROM token WHERE Fecha <= " + \
+            str(int(time.time()))
 
         cursor.execute(sqlStatement)
         connection.commit()
@@ -41,14 +45,14 @@ while True:
 
         # Abre el log de eventos
         # ----------------------------------------------------------------------------
-        #Ruta en windows
-        archivoW = os.getcwd() + "\\Log\\"+ "logs.txt"
+        # Ruta en windows
+        logW = os.getcwd() + "\\Log\\" + "logs.txt"
         try:
-            file =  open(archivoW, 'a+')
-        #Ruta en linux
+            file = open(logW, 'a+')
+        # Ruta en linux
         except:
-            archivoL = os.getcwd() + "/files/"+ "logs.txt"
-            file = open(archivoL, 'a+')
+            logL = os.getcwd() + "/files/" + "logs.txt"
+            file = open(logL, 'a+')
         # ----------------------------------------------------------------------------
 
         # Elimina cada token de la consulta
@@ -60,38 +64,41 @@ while True:
 
             # Escribe en el log de eventos
             # ----------------------------------------------------------------------------
-                fecha_hora_actual = datetime.now()
-                fecha_hora_formateada = fecha_hora_actual.strftime(formato)
-                file.write(fecha_hora_formateada + "; Eliminando token " + i[0] + " de la base de datos \n")
+                current_time = datetime.now()
+                current_time_formated = current_time.strftime(format)
+                file.write(current_time_formated + "; Eliminando token " +
+                           i[0] + " de la base de datos \n")
 
             # Envía un mensaje para que se desencole otro usuario
-            # ----------------------------------------------------------------------------    
+            # ----------------------------------------------------------------------------
 
-                connectionQ = pika.BlockingConnection(pika.ConnectionParameters(host='127.0.0.1'))
+                connectionQ = pika.BlockingConnection(
+                    pika.ConnectionParameters(host='127.0.0.1'))
                 channel = connectionQ.channel()
-                channel.basic_publish(exchange='', routing_key="desencolar", body = i[2])
-                
+                channel.basic_publish(
+                    exchange='', routing_key="desencolar", body=i[2])
+
             # Vuelve a escribir en el log de eventos
             # ----------------------------------------------------------------------------
-                fecha_hora_actual = datetime.now()
-                fecha_hora_formateada = fecha_hora_actual.strftime(formato)
-                file.write(fecha_hora_formateada + "; Enviando mensaje para desencolar;" + i[2] +"\n")
-            # ----------------------------------------------------------------------------  
+                current_time = datetime.now()
+                current_time_formated = current_time.strftime(format)
+                file.write(current_time_formated +
+                           "; Enviando mensaje para desencolar;" + i[2] + "\n")
+            # ----------------------------------------------------------------------------
 
-
-            except (Exception, mariadb.Error) as error :
-                if(connection):
+            except (Exception, mariadb.Error) as error:
+                if (connection):
                     print("Failed ", error)
 
         file.close()
 
-    except (Exception, mariadb.Error) as error :
-        if(connection):
+    except (Exception, mariadb.Error) as error:
+        if (connection):
             print("Failed ", error)
 
     finally:
-        #closing database connection.
-        if(connection):
+        # closing database connection.
+        if (connection):
             cursor.close()
             connection.close()
 
