@@ -1,11 +1,11 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import Formulario from "../components/Form";
+import Form from "../components/Form";
 import axios from "axios";
 import Loading from "../components/Loading";
 import { useState, useEffect } from "react";
 
-function Concierto() {
+function Concert_page() {
   const [data, setData] = useState("NO");
   const [concierto, setConcierto] = useState(null);
   const { id } = useParams();
@@ -71,4 +71,4 @@ function Concierto() {
   );
 }
 
-export default Concierto;
+export default Concert_page;
