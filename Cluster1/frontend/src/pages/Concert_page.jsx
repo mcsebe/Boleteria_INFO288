@@ -66,11 +66,7 @@ function Concert_page() {
 
   return (
     <div className="mt-5 p-5">
-<<<<<<< HEAD
       {data === "SI" ? <Form concert={concert} /> : <Loading />}
-=======
-      {data === "SI" ? <Form concierto={concierto} /> : <Loading />}
->>>>>>> 30e9216dbb0a0abf8e0b0776aa60d73658c12886
     </div>
   );
 }
