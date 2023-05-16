@@ -23,7 +23,7 @@ channel = connectionQ.channel()
 
 # Variables que se utilizarán
 queue = 'desencolar'
-formato = "%H:%M:%S;%d/%m/%Y"
+format = "%H:%M:%S;%d/%m/%Y"
 
 channel.queue_declare(queue=queue)
 
@@ -46,13 +46,13 @@ while True:
         # Abre el log de eventos
         # ----------------------------------------------------------------------------
         # Ruta en windows
-        archivoW = os.getcwd() + "\\Log\\" + "logs.txt"
+        logW = os.getcwd() + "\\Log\\" + "logs.txt"
         try:
-            file = open(archivoW, 'a+')
+            file = open(logW, 'a+')
         # Ruta en linux
         except:
-            archivoL = os.getcwd() + "/files/" + "logs.txt"
-            file = open(archivoL, 'a+')
+            logL = os.getcwd() + "/files/" + "logs.txt"
+            file = open(logL, 'a+')
         # ----------------------------------------------------------------------------
 
         # Elimina cada token de la consulta
@@ -64,9 +64,9 @@ while True:
 
             # Escribe en el log de eventos
             # ----------------------------------------------------------------------------
-                fecha_hora_actual = datetime.now()
-                fecha_hora_formateada = fecha_hora_actual.strftime(formato)
-                file.write(fecha_hora_formateada + "; Eliminando token " +
+                current_time = datetime.now()
+                current_time_formated = current_time.strftime(format)
+                file.write(current_time_formated + "; Eliminando token " +
                            i[0] + " de la base de datos \n")
 
             # Envía un mensaje para que se desencole otro usuario
@@ -80,9 +80,9 @@ while True:
 
             # Vuelve a escribir en el log de eventos
             # ----------------------------------------------------------------------------
-                fecha_hora_actual = datetime.now()
-                fecha_hora_formateada = fecha_hora_actual.strftime(formato)
-                file.write(fecha_hora_formateada +
+                current_time = datetime.now()
+                current_time_formated = current_time.strftime(format)
+                file.write(current_time_formated +
                            "; Enviando mensaje para desencolar;" + i[2] + "\n")
             # ----------------------------------------------------------------------------
 
