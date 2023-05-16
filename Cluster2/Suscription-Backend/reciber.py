@@ -15,51 +15,43 @@ def get_connection_db(conn):
 
 ###############################################################################
 
-# Set up a connection to RabbitMQ
+# Establecer la conexión con RabbitMQ
 connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
 channel = connection.channel()
 
-# Declare the three queues
-queue1 = 'metallica'
-queue2 = 'weeknd'
-queue3 = 'otros'
-queue4 = 'desencolar'
 
-formato = "%H:%M:%S;%d/%m/%Y"
+# Variables utilizadas
+format = "%H:%M:%S;%d/%m/%Y"
+counters = { }
 
-counters = {
-    queue1: 0,
-    queue2: 0,
-    queue3: 0
-}
+# Declaración de las colas e inicio de contador
+for i in sysConnConfig["Queues"].keys():
+    channel.queue_declare(queue=i)
+    counters[i] = 0
 
-channel.queue_declare(queue=queue1)
-channel.queue_declare(queue=queue2)
-channel.queue_declare(queue=queue3)
-channel.queue_declare(queue=queue4)
-
-# Dequeue up to 10 messages from each queue
+# Se encarga de escuchar las colas y desencolar
 while True:
-    for queue in [queue1, queue2, queue3, queue4]:
-        if queue != "desencolar" and counters[queue] < 10:
+    for queue in sysConnConfig["Queues"].keys():
+        # Si no se excede el límite, se añade el token a la base de datos
+        if queue != "desencolar" and counters[queue] < sysConnConfig["Queues"][queue]:
             method, properties, body = channel.basic_get(queue=queue, auto_ack=True)
             if method:
                 counters[queue] +=1
+                # Añadiendo el token a la base de datos
                 try:
-
                     # Obtener el timestamp actual
-                    timestamp_actual = int(time.time())
+                    timestampNow = int(time.time())
                     # Sumar 5 minutos
-                    timestamp_futuro = datetime.fromtimestamp(timestamp_actual) + timedelta(minutes=5)
+                    timestampFuture = datetime.fromtimestamp(timestampNow) + timedelta(minutes=5)
                     # Convertir a timestamp Unix
-                    timestamp_futuro = int(timestamp_futuro.timestamp())
+                    timestampFuture = int(timestampFuture.timestamp())
 
-                    connection = get_connection_db(dbConnConfig["dbConnConfig"])
+                    connection = get_connection_db(sysConnConfig["dbConnConfig"])
                     cursor = connection.cursor()
 
                     sqlStatement = """INSERT INTO token (Valor, Fecha, Cola) VALUES (%s, %s, %s)"""
 
-                    cursor.execute(sqlStatement, (body.decode(), timestamp_futuro, queue))
+                    cursor.execute(sqlStatement, (body.decode(), timestampFuture, queue))
                     connection.commit()
                     
                     sqlStatement = """INSERT INTO all_tokens (Valor, Fecha, Cola) VALUES (%s, %s, %s)"""
@@ -67,20 +59,21 @@ while True:
                     cursor.execute(sqlStatement, (body.decode(), datetime.now(), queue))
                     connection.commit()
 
+                    # Escribe en el log de eventos
                     # ----------------------------------------------------------------------------
-                    fecha_hora_actual = datetime.now()
-                    fecha_hora_formateada = fecha_hora_actual.strftime(formato)
+                    date = datetime.now()
+                    date = date.strftime(format)
 
                     #Ruta en windows
-                    archivoW = os.getcwd() + "\\Log\\"+ "logs.txt"
+                    fileW = os.getcwd() + "\\Log\\"+ "logs.txt"
                     try:
-                        file = open(archivoW, 'a+')
+                        file = open(fileW, 'a+')
                     #Ruta en linux
                     except:
-                        archivoL = os.getcwd() + "/files/"+ "logs.txt"
-                        file = open(archivoL, 'a+')
+                        fileL = os.getcwd() + "/files/"+ "logs.txt"
+                        file = open(fileL, 'a+')
 
-                    file.write(fecha_hora_formateada + "; Añadiendo token " + body.decode() + " a la base de datos;" + str(timestamp_futuro) + ";" + queue + "\n")
+                    file.write(date + "; Añadiendo token " + body.decode() + " a la base de datos;" + str(timestampFuture) + ";" + queue + "\n")
                     file.close()
                     # ----------------------------------------------------------------------------
 
@@ -96,27 +89,28 @@ while True:
             else:
                 pass
         if queue == "desencolar":
+            # Permite pasar otro
             method, properties, body = channel.basic_get(queue=queue, auto_ack=True)
             if method:
                 counters[body.decode()] -= 1
                 if(counters[body.decode()] < 0):
                     counters[body.decode()] = 0 
 
+                # Escribe en el log de eventos
                 # ----------------------------------------------------------------------------
-                fecha_hora_actual = datetime.now()
-                formato = "%H:%M:%S;%d/%m/%Y"
-                fecha_hora_formateada = fecha_hora_actual.strftime(formato)
+                date = datetime.now()
+                date = date.strftime(format)
 
                 #Ruta en windows
-                archivoW = os.getcwd() + "\\Log\\"+ "logs.txt"
+                fileW = os.getcwd() + "\\Log\\"+ "logs.txt"
                 try:
-                    file = open(archivoW, 'a+')
+                    file = open(fileW, 'a+')
                 #Ruta en linux
                 except:
-                    archivoL = os.getcwd() + "/files/"+ "logs.txt"
-                    file = open(archivoL, 'a+')
+                    fileL = os.getcwd() + "/files/"+ "logs.txt"
+                    file = open(fileL, 'a+')
 
-                file.write(fecha_hora_formateada + "; Dejar pasar otro token;" + body.decode() + "\n")
+                file.write(date + "; Dejar pasar otro token;" + body.decode() + "\n")
                 file.close()
                 # ----------------------------------------------------------------------------
             else:

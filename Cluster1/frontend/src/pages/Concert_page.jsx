@@ -66,7 +66,7 @@ function Concert_page() {
 
   return (
     <div className="mt-5 p-5">
-      {data === "SI" ? <Formulario concierto={concierto} /> : <Loading />}
+      {data === "SI" ? <Form concierto={concierto} /> : <Loading />}
     </div>
   );
 }
