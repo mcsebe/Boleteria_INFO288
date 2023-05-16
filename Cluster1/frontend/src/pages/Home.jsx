@@ -1,4 +1,4 @@
-import Conciertos from "../components/Conciertos";
+import Concerts from "../components/Concerts";
 import Carrousel from "../components/Carrousel";
 
 function Home() {
@@ -7,7 +7,7 @@ function Home() {
       <div className="">
         <Carrousel />
       </div>
-      <Conciertos />
+      <Concerts />
     </div>
   );
 }

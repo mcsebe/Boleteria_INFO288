@@ -1,7 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import Formulario from "../components/Formulario";
-import { data } from "autoprefixer";
+import Formulario from "../components/Form";
 import axios from "axios";
 import Loading from "../components/Loading";
 import { useState, useEffect } from "react";
@@ -14,7 +13,7 @@ function Concierto() {
   useEffect(() => {
     const fetchPosts = () => {
       return axios
-        .put("http://0.0.0.0:5001/informacion", { Id: id })
+        .put("http://127.0.0.1:5001/informacion", { Id: id })
         .then((res) => res.data);
     };
     fetchPosts().then((a) => setConcierto(a));
@@ -35,7 +34,7 @@ function Concierto() {
     const intervalId = setInterval(() => {
       if (data === "NO") {
         axios
-          .put("http://0.0.0.0:8088/token", {
+          .put("http://127.0.0.1:8088/token", {
             Token: token,
           })
           .then((response) => {

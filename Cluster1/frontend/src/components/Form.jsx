@@ -9,16 +9,8 @@ import molotov from "../assets/molotov.jpg";
 import MovimientoOriginal from "../assets/movimientoOriginal.png";
 import Chystemc from "../assets/chystemc.png";
 
-export default function Formulario(props) {
-  const imagenes = [
-    Image,
-    Weeknd,
-    Siames,
-    molotov,
-    MovimientoOriginal,
-    Chystemc,
-  ];
-
+export default function Form(props) {
+  const images = [Image, Weeknd, Siames, molotov, MovimientoOriginal, Chystemc];
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [selectedSeat, setSelectedSeat] = useState("");
@@ -170,8 +162,8 @@ export default function Formulario(props) {
                   <option value="" disabled>
                     Seleccione un asiento
                   </option>
-                  {props.concierto[0].map((asiento) => (
-                    <option value={asiento}>{asiento}</option>
+                  {props.concierto[0].map((e) => (
+                    <option value={e}>{e}</option>
                   ))}
                 </select>
               </div>
@@ -182,7 +174,7 @@ export default function Formulario(props) {
           <div className="flex flex-col">
             <img
               className="w-full h-[15rem]  md:mx-auto mx-0 md:mb-8 mb-0 mr-8 rounded-md"
-              src={imagenes[props.concierto[1][0] - 1]}
+              src={images[props.concierto[1][0] - 1]}
               alt={props.concierto[1][2]}
             />
             <h3>Información General</h3>
