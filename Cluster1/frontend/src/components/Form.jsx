@@ -50,8 +50,8 @@ export default function Form(props) {
       Correo: email,
       Edad: age,
       Asiento: parseInt(selectedSeat),
-      Id_concierto: parseInt(props.concierto[1][0]),
-      Nombre_Concierto: props.concierto[1][5],
+      Id_concierto: parseInt(props.concert[1][0]),
+      Nombre_Concierto: props.concert[1][5],
       Token: token,
     });
     window.location.href = "/";
@@ -162,7 +162,7 @@ export default function Form(props) {
                   <option value="" disabled>
                     Seleccione un asiento
                   </option>
-                  {props.concierto[0].map((e) => (
+                  {props.concert[0].map((e) => (
                     <option value={e}>{e}</option>
                   ))}
                 </select>
@@ -174,22 +174,22 @@ export default function Form(props) {
           <div className="flex flex-col">
             <img
               className="w-full h-[15rem]  md:mx-auto mx-0 md:mb-8 mb-0 mr-8 rounded-md"
-              src={images[props.concierto[1][0] - 1]}
-              alt={props.concierto[1][2]}
+              src={images[props.concert[1][0] - 1]}
+              alt={props.concert[1][2]}
             />
             <h3>Información General</h3>
             <p className="mt-5 md:mt-1 text-sm leading-6 text-gray-600">
-              Nombre: {props.concierto[1][1]}
+              Nombre: {props.concert[1][1]}
               <br />
-              Precio: ${props.concierto[1][2]} <br />
-              Fecha del concierto: {props.concierto[1][3]}
+              Precio: ${props.concert[1][2]} <br />
+              Fecha del concierto: {props.concert[1][3]}
             </p>
             <h3>Ubicación</h3>
             <p className="mt-5 md:mt-1 text-sm leading-6 text-gray-600">
-              Lugar: {props.concierto[2][1]}
+              Lugar: {props.concert[2][1]}
               <br />
-              Ciudad: {props.concierto[2][2]} <br />
-              Región: {props.concierto[2][3]}
+              Ciudad: {props.concert[2][2]} <br />
+              Región: {props.concert[2][3]}
             </p>
             <button
               type="submit"

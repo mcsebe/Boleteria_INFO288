@@ -89,18 +89,15 @@ while True:
             except (Exception, mariadb.Error) as error:
                 if (connection):
                     print("Failed ", error)
-
+            finally:
+                # closing database connection.
+                if (connection):
+                    cursor.close()
+                    connection.close()
         file.close()
 
     except (Exception, mariadb.Error) as error:
-        if (connection):
-            print("Failed ", error)
-
-    finally:
-        # closing database connection.
-        if (connection):
-            cursor.close()
-            connection.close()
+        print("Failed ", error)
 
     # Espera 10 segundos para volver a realizar la acción
     time.sleep(10)

@@ -1,0 +1,22 @@
+15:24:41;16/05/2023; Consulta sobre información;1
+15:24:41;16/05/2023; Consulta sobre información;1
+15:25:18;16/05/2023; Consulta sobre información;1
+15:27:53;16/05/2023; Consulta sobre información;2
+15:29:34;16/05/2023; Consulta sobre información;3
+15:30:21;16/05/2023; Consulta sobre información;4
+15:30:21;16/05/2023; Consulta sobre información;4
+15:31:14;16/05/2023; Consulta sobre información;2
+15:31:14;16/05/2023; Consulta sobre información;2
+15:33:10;16/05/2023; Consulta sobre información;2
+15:33:10;16/05/2023; Consulta sobre información;2
+15:37:23;16/05/2023; Consulta sobre información;4
+19:22:51;16/05/2023; Consulta sobre información;2
+19:25:40;16/05/2023; Consulta sobre información;2
+19:26:07;16/05/2023; Consulta sobre información;3
+19:26:07;16/05/2023; Consulta sobre información;3
+19:28:26;16/05/2023; Consulta sobre información;3
+19:28:47;16/05/2023; Eliminando token 9ztk3wb6me842orpycr3w de la base de datos 
+19:28:47;16/05/2023; Insertando en la tabla reserva 17;NanitoEngine;234234;31231;xnanoengine@gmail.com;3
+19:28:47;16/05/2023; Enviando mensaje para desencolar;otros
+19:29:14;16/05/2023; Consulta sobre información;1
+19:29:14;16/05/2023; Consulta sobre información;1

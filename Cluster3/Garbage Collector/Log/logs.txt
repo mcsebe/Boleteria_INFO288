@@ -1,0 +1,12 @@
+15:34:39;16/05/2023; Eliminando token mds2bbudqirb4cb8dpnqbd de la base de datos 
+15:34:39;16/05/2023; Enviando mensaje para desencolar;otros
+15:35:29;16/05/2023; Eliminando token a9yikmw23wiz2sxc4i808h de la base de datos 
+15:35:29;16/05/2023; Enviando mensaje para desencolar;otros
+15:36:19;16/05/2023; Eliminando token uusy2lzm8hjhonx3sqd4sr de la base de datos 
+15:36:19;16/05/2023; Enviando mensaje para desencolar;weeknd
+15:38:19;16/05/2023; Eliminando token w9ae79x7ms28tmhraxbxt de la base de datos 
+15:38:19;16/05/2023; Enviando mensaje para desencolar;weeknd
+19:15:30;16/05/2023; Eliminando token iopmw6h7bgpfz8dy95pa9 de la base de datos 
+19:15:30;16/05/2023; Enviando mensaje para desencolar;otros
+19:28:00;16/05/2023; Eliminando token qy868fzy4nuxabxmqn2f de la base de datos 
+19:28:00;16/05/2023; Enviando mensaje para desencolar;weeknd
