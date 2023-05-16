@@ -4,25 +4,25 @@ import os
 
 
 # Función que envía el token a la cola correspondiente
-def encolar(ruta, mensaje, channel):
+def queueUp(route, message, channel):
     # Escribe en el log de eventos
     # ----------------------------------------------------------------------------
-    fecha_hora_actual = datetime.now()
-    formato = "%H:%M:%S;%d/%m/%Y"
-    fecha_hora_formateada = fecha_hora_actual.strftime(formato)
+    current_time = datetime.now()
+    format = "%H:%M:%S;%d/%m/%Y"
+    current_time_formated = current_time.strftime(format)
 
-
-    #Ruta en windows
-    archivoW = os.getcwd() + "\\Log\\"+ "logs.txt"
+    # Ruta en windows
+    logW = os.getcwd() + "\\Log\\" + "logs.txt"
     try:
-        file = open(archivoW, 'a+')
-    #Ruta en linux
+        file = open(logW, 'a+')
+    # Ruta en linux
     except:
-        archivoL = os.getcwd() + "/files/"+ "logs.txt"
-        file = open(archivoL, 'a+')
+        logL = os.getcwd() + "/files/" + "logs.txt"
+        file = open(logL, 'a+')
 
-    file.write(fecha_hora_formateada + "; Encolando token " + mensaje + ";" + ruta + "\n")
+    file.write(current_time_formated + "; Encolando token " +
+               message + ";" + route + "\n")
     file.close()
     # ----------------------------------------------------------------------------
 
-    channel.basic_publish(exchange='', routing_key=ruta, body = mensaje)
+    channel.basic_publish(exchange='', routing_key=route, body=message)
