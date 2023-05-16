@@ -24,4 +24,4 @@ def read_config():
 
 #CONSTANTE DEL SISTEMA
 app = Flask(__name__)
-dbConnConfig = read_config()
+sysConnConfig = read_config()
