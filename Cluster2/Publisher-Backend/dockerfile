@@ -5,18 +5,30 @@ FROM python:3.9-alpine
 WORKDIR /app
 
 # Copia los archivos de requerimientos
-COPY Publisher-Backend/requirements.txt ./
+COPY publisher-backend/requirements.txt ./
+
+# Dependencias de rabbitmq
+
+RUN apk add --no-cache \
+    bash \
+    build-base \
+    openssl \
+    ca-certificates \
+    rabbitmq-c-dev
+
 
 # Instala las dependencias del backend
 RUN pip install --no-cache-dir -r requirements.txt \
-    && pip install flask
+    && pip install flask 
+
 
 # Copia el resto de los archivos del backend
-COPY Publisher-Backend ./
+COPY ./ app
 
 
 # Expone el puerto en el que se ejecuta el servidor del backend
 EXPOSE 5100
+EXPOSE 5672 15672
 
 # Comando para activar el entorno de Flask
 ENV FLASK_APP=app.py

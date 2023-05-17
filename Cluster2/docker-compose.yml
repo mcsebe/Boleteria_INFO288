@@ -1,12 +1,12 @@
 version: "3.9"
 services:
-  frontend:
+  publisher-backend: 
     build:
       context: .
       dockerfile: /Publisher-Backend/Dockerfile
     ports:
       - "5100:5100"
-  backend:
+  suscription-backend:
     build:
       context: .
       dockerfile: /Suscription-Backend/Dockerfile
