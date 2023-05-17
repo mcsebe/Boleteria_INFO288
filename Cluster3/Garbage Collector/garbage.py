@@ -5,8 +5,6 @@ from datetime import datetime, timedelta
 from common import *
 
 ###############################################################################
-
-
 def get_connection_db(conn):
     return mariadb.connect(user=conn["user"],
                            password=conn["pass"],
@@ -24,6 +22,13 @@ channel = connectionQ.channel()
 # Variables que se utilizarán
 queue = 'desencolar'
 format = "%H:%M:%S;%d/%m/%Y"
+
+logW = os.getcwd() + "\\Log\\" + "logs.txt"
+try:
+    file = open(logW, 'a+')
+except:
+    logL = os.getcwd() + "/files/" + "logs.txt"
+    file = open(logL, 'a+')
 
 channel.queue_declare(queue=queue)
 
@@ -43,18 +48,6 @@ while True:
         connection.commit()
         resp = cursor.fetchall()
 
-        # Abre el log de eventos
-        # ----------------------------------------------------------------------------
-        # Ruta en windows
-        logW = os.getcwd() + "\\Log\\" + "logs.txt"
-        try:
-            file = open(logW, 'a+')
-        # Ruta en linux
-        except:
-            logL = os.getcwd() + "/files/" + "logs.txt"
-            file = open(logL, 'a+')
-        # ----------------------------------------------------------------------------
-
         # Elimina cada token de la consulta
         for i in resp:
             try:
@@ -63,14 +56,12 @@ while True:
                 connection.commit()
 
             # Escribe en el log de eventos
-            # ----------------------------------------------------------------------------
                 current_time = datetime.now()
                 current_time_formated = current_time.strftime(format)
                 file.write(current_time_formated + "; Eliminando token " +
                            i[0] + " de la base de datos \n")
 
             # Envía un mensaje para que se desencole otro usuario
-            # ----------------------------------------------------------------------------
 
                 connectionQ = pika.BlockingConnection(
                     pika.ConnectionParameters(host='127.0.0.1'))
@@ -79,12 +70,10 @@ while True:
                     exchange='', routing_key="desencolar", body=i[2])
 
             # Vuelve a escribir en el log de eventos
-            # ----------------------------------------------------------------------------
                 current_time = datetime.now()
                 current_time_formated = current_time.strftime(format)
                 file.write(current_time_formated +
                            "; Enviando mensaje para desencolar;" + i[2] + "\n")
-            # ----------------------------------------------------------------------------
 
             except (Exception, mariadb.Error) as error:
                 if (connection):
@@ -94,7 +83,6 @@ while True:
                 if (connection):
                     cursor.close()
                     connection.close()
-        file.close()
 
     except (Exception, mariadb.Error) as error:
         print("Failed ", error)

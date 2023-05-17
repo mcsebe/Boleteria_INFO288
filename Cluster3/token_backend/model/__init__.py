@@ -4,7 +4,6 @@ import os
 
 ###############################################################################
 
-
 def get_connection_db(conn):
     return mariadb.connect(user=conn["user"],
                            password=conn["pass"],
@@ -16,7 +15,7 @@ def get_connection_db(conn):
 
 
 # Función que realiza la consulta a la base de datos por un token en específico
-def token(dbConnConfig, token, name):
+def token(dbConnConfig, token, name, format):
     resp = []
     # Realiza la consulta a la base de datos
     try:
@@ -39,33 +38,27 @@ def token(dbConnConfig, token, name):
             print("MariaDB connection is closed")
 
     # Escribe en el log de eventos
-    # ----------------------------------------------------------------------------
     current_time = datetime.now()
-    format = "%H:%M:%S;%d/%m/%Y"
     current_time_formated = current_time.strftime(format)
-
-    # Ruta en windows
-    logW = os.getcwd() + "\\Log\\" + "logs.txt"
-    try:
-        file = open(logW, 'a+')
-    # Ruta en linux
-    except:
-        logL = os.getcwd() + "/files/" + "logs.txt"
-        file = open(logL, 'a+')
-    # ----------------------------------------------------------------------------
 
     # Si el token existe retorna "SI", en caso contrario retorna "NO"
     if len(resp) == 1:
-
-        file.write(current_time_formated +
-                   "; Consulta sobre token " + token + ";SI;" + name + "\n")
-        file.close()
+        logW = os.getcwd() + "\\Log\\" + "logs.txt"
+        try:
+            file = open(logW, 'a+')
+        except:
+            logL = os.getcwd() + "/files/" + "logs.txt"
+            file = open(logL, 'a+')
+        file.write(current_time_formated + "; Consulta sobre token " + token + ";SI;" + name + "\n")
 
         return "SI"
     else:
-
-        file.write(current_time_formated +
-                   "; Consulta sobre token " + token + ";NO;" + name + "\n")
-        file.close()
+        logW = os.getcwd() + "\\Log\\" + "logs.txt"
+        try:
+            file = open(logW, 'a+')
+        except:
+            logL = os.getcwd() + "/files/" + "logs.txt"
+            file = open(logL, 'a+')
+        file.write(current_time_formated + "; Consulta sobre token " + token + ";NO;" + name + "\n")
 
         return "NO"
