@@ -1,0 +1,40 @@
+version: "3.9"
+services:
+  publisher-backend: 
+    build:
+      context: .
+      dockerfile: /Publisher-Backend/Dockerfile
+    ports:
+      - "5100:5100"
+    depends_on:
+      - rabbitmq   
+  suscription-backend:
+    build:
+      context: .
+      dockerfile: /Suscription-Backend/Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - rabbitmq
+      - mariadb  
+  rabbitmq:
+    image: rabbitmq
+    hostname: rabbitmq
+    container_name: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER="user"
+      - RABBITMQ_DEFAULT_PASS="secretpw"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+  mariadb:
+    image: mariadb
+    environment:
+      MYSQL_DATABASE: token
+      MYSQL_ROOT_PASSWORD: 1306
+      MYSQL_USER: user
+      MYSQL_PASSWORD: 1306
+    volumes:
+      - ./mariadb-data:/var/lib/mysql
+    ports:
+      - 3306:3306  
