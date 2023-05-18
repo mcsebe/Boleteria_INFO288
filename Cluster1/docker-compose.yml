@@ -12,4 +12,18 @@ services:
       dockerfile: ./Backend/Dockerfile
     ports:
       - 5001:5001
-  
+  db_boleteria:
+    image: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: 1306
+      MYSQL_DATABASE: token
+      MYSQL_USER: user
+      MYSQL_PASSWORD: 1306
+    volumes:
+      - ./Base de datos/boleteria.sql:/docker-entrypoint-initdb.d/init.sql
+      - data:/var/lib/mysql
+    ports:
+      - 3306:3306
+volumes:
+   data:
+     external: false
