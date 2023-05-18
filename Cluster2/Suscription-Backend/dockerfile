@@ -22,7 +22,7 @@ RUN apk add --no-cache \
     rabbitmq-c-dev 
 
 # Copia el resto de los archivos del backend
-COPY ./ app
+COPY Suscription-Backend ./
 
 # Expone el puerto en el que se ejecuta el servidor del backend
 EXPOSE 5100
@@ -31,5 +31,6 @@ EXPOSE 5100
 EXPOSE 15672
 EXPOSE 5672
 
+EXPOSE 3306
 # Comando para iniciar el servidor de python
-CMD python -3 reciber.py
+CMD python3 reciber.py
