@@ -4,6 +4,7 @@ from flask import Flask, request, jsonify, json
 from common import *
 import model
 import os
+import time
 
 from flask_cors import CORS, cross_origin
 
@@ -12,11 +13,12 @@ app = Flask(__name__)
 CORS(app)
 
 app.run(debug=True)
-
+time.sleep(60)
 # Iniciando la conexión con RabbitMQ
-connection = pika.BlockingConnection(
-    pika.ConnectionParameters(host='127.0.0.1'))
+credentials = pika.PlainCredentials("user","user")
+connection = pika.BlockingConnection(pika.ConnectionParameters("rabbitmq",5672,'/',credentials))
 channel = connection.channel()
+
 
 for i in sysConfig:
     channel.queue_declare(queue=sysConfig[i])
@@ -33,8 +35,8 @@ except:
 # Ruta que envía el token recibido a la cola correspondiente
 @app.route('/publisher', methods=['PUT'])
 def getPublisher():
-    connection = pika.BlockingConnection(
-        pika.ConnectionParameters(host='127.0.0.1'))
+    credentials = pika.PlainCredentials("user","user")
+    connection = pika.BlockingConnection(pika.ConnectionParameters("rabbitmq",5672,'/',credentials))
     channel = connection.channel()
     data = request.json
     if data["concierto"] and data["mensaje"]:
