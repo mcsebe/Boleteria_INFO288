@@ -10,14 +10,6 @@ function Concert_page() {
   const [concert, setConciert] = useState(null);
   const { id } = useParams();
 
-  useEffect(() => {
-    const fetchPosts = () => {
-      return axios
-        .put("http://127.0.0.1:5001/informacion", { Id: id })
-        .then((res) => res.data);
-    };
-    fetchPosts().then((a) => setConciert(a));
-  }, []);
 
   useEffect(() => {
     const cookies = document.cookie.split(";");
@@ -38,11 +30,21 @@ function Concert_page() {
             Token: token,
           })
           .then((response) => {
-            setData(response.data);
             if (response.data === "SI") {
+              const fetchPosts = () => {
+                return axios
+                  .put("http://127.0.0.1:5001/informacion", { Id: id })
+                  .then((res) => res.data);
+              };
+              fetchPosts().then((a) => {
+                setConciert(a);
+                setData(response.data); // Colocar setData dentro del then de fetchPosts
+              });
+
               // Establecer el tiempo de expiración de la cookie a 5 minutos
               document.cookie = `token=${token}; max-age=300`;
             }
+
           })
           .catch((error) => {
             console.log(error);

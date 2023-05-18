@@ -22,6 +22,13 @@ channel = connection.channel()
 
 # Variables utilizadas
 format = "%H:%M:%S;%d/%m/%Y"
+fileW = os.getcwd() + "\\Log\\"+ "logs.txt"
+try:
+    file = open(fileW, 'a+')
+except:
+    fileL = os.getcwd() + "/files/"+ "logs.txt"
+    file = open(fileL, 'a+')
+
 counters = { }
 
 # Declaración de las colas e inicio de contador
@@ -60,22 +67,10 @@ while True:
                     connection.commit()
 
                     # Escribe en el log de eventos
-                    # ----------------------------------------------------------------------------
                     date = datetime.now()
                     date = date.strftime(format)
-
-                    #Ruta en windows
-                    fileW = os.getcwd() + "\\Log\\"+ "logs.txt"
-                    try:
-                        file = open(fileW, 'a+')
-                    #Ruta en linux
-                    except:
-                        fileL = os.getcwd() + "/files/"+ "logs.txt"
-                        file = open(fileL, 'a+')
-
                     file.write(date + "; Añadiendo token " + body.decode() + " a la base de datos;" + str(timestampFuture) + ";" + queue + "\n")
-                    file.close()
-                    # ----------------------------------------------------------------------------
+
 
                 except (Exception, mariadb.Error) as error :
                     if(connection):
@@ -97,21 +92,9 @@ while True:
                     counters[body.decode()] = 0 
 
                 # Escribe en el log de eventos
-                # ----------------------------------------------------------------------------
                 date = datetime.now()
                 date = date.strftime(format)
-
-                #Ruta en windows
-                fileW = os.getcwd() + "\\Log\\"+ "logs.txt"
-                try:
-                    file = open(fileW, 'a+')
-                #Ruta en linux
-                except:
-                    fileL = os.getcwd() + "/files/"+ "logs.txt"
-                    file = open(fileL, 'a+')
-
                 file.write(date + "; Dejar pasar otro token;" + body.decode() + "\n")
-                file.close()
-                # ----------------------------------------------------------------------------
+
             else:
                 pass

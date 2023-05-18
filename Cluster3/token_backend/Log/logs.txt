@@ -1,5 +1,0 @@
-19:22:56;16/05/2023; Consulta sobre token qy868fzy4nuxabxmqn2f;SI;slave1
-19:25:45;16/05/2023; Consulta sobre token 7soa5c08qftjbs6dkd0q;SI;slave0
-19:26:12;16/05/2023; Consulta sobre token 9ztk3wb6me842orpycr3w;SI;slave2
-19:28:31;16/05/2023; Consulta sobre token 9ztk3wb6me842orpycr3w;SI;slave1
-19:29:19;16/05/2023; Consulta sobre token 1yo1qahzevm9xxn1y0r5s;SI;slave0

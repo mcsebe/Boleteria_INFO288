@@ -120,19 +120,7 @@ def location(dbConnConfig, concert):
 
 # Función que inserta en la base de datos la información de la reserva, elimina el token correspondiente y envía un mensaje a la cola
 
-
-def insert(dbConnConfig, dbConnConfig2, data):
-
-    # Escribe en el log de eventos
-    format = "%H:%M:%S;%d/%m/%Y"
-    # Ruta en windows
-    logsW = os.getcwd() + "\\Log\\" + "logs.txt"
-    try:
-        file = open(logsW, 'a+')
-    # Ruta en linux
-    except:
-        logsL = os.getcwd() + "/files/" + "logs.txt"
-        file = open(logsL, 'a+')
+def insert(dbConnConfig, dbConnConfig2, data, format, file):
 
     # Elimina el token que correspondiente al usuario
     try:
@@ -202,7 +190,5 @@ def insert(dbConnConfig, dbConnConfig2, data):
     current_time_formated = current_time.strftime(format)
     file.write(current_time_formated +
                "; Enviando mensaje para desencolar;" + data["Nombre_Concierto"] + "\n")
-
-    file.close()
 
     return resp

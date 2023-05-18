@@ -13,11 +13,23 @@ RUN apk add --no-cache mariadb-connector-c-dev \
     && apk add --no-cache --virtual .build-deps build-base mariadb-dev \
     && pip install --no-cache-dir -r requirements.txt \
     && apk del .build-deps
+
+RUN apk add --no-cache \
+    bash \
+    build-base \
+    openssl \
+    ca-certificates \
+    rabbitmq-c-dev 
+
 # Copia el resto de los archivos del backend
-COPY Suscription-Backend ./app
+COPY ./ app
 
 # Expone el puerto en el que se ejecuta el servidor del backend
 EXPOSE 5100
+
+# Expone los puertos de Rabbitmq
+EXPOSE 15672
+EXPOSE 5672
 
 # Comando para iniciar el servidor de python
 CMD python -3 reciber.py
