@@ -1,0 +1,28 @@
+# Utiliza una imagen base de Python con Flask
+FROM python:3.9-alpine
+# Argumentos a utilizar
+ARG PORT 
+ARG CONFIGFILE
+# Establece el directorio de trabajo dentro del contenedor
+WORKDIR /tokenbackend
+ENV CONFIGFILE ${CONFIGFILE}
+# Copia los archivos de requerimientos
+COPY requirements.txt ./
+
+# Instala las dependencias del backend
+RUN apk add --no-cache mariadb-connector-c-dev \
+    && apk add --no-cache --virtual .build-deps build-base mariadb-dev \
+    && pip install --no-cache-dir -r requirements.txt \
+    && apk del .build-deps
+
+# Copia el resto de los archivos del backend
+COPY ./ ./
+
+# Instala el entorno de Flask
+RUN pip install flask
+
+# Expone el puerto en el que se ejecuta el servidor del backend
+EXPOSE ${PORT}
+# Comando para activar el entorno de Flask
+CMD ["sh", "-c", "python main.py ${CONFIGFILE}"]
+

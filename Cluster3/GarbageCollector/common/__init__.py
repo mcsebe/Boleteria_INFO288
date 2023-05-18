@@ -1,4 +1,4 @@
-from flask import Flask, json
+import json
 import os
 import time,sys
 
@@ -22,5 +22,4 @@ def read_config():
         return  data
 
 #CONSTANTE DEL SISTEMA
-app = Flask(__name__)
 dbConnConfig = read_config()

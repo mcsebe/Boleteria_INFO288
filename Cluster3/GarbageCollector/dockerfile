@@ -1,0 +1,22 @@
+# Utiliza una imagen base de Python con Flask
+FROM python:3.9-alpine
+
+# Establece el directorio de trabajo dentro del contenedor
+WORKDIR /GarbageCollector
+
+# Copia los archivos de requerimientos
+COPY requirements.txt ./
+
+# Instala las dependencias
+RUN apk add --no-cache mariadb-connector-c-dev \
+    && apk add --no-cache --virtual .build-deps build-base mariadb-dev \
+    && pip install --no-cache-dir -r requirements.txt \
+    && apk del .build-deps
+
+# Copia el resto de los archivos del backend
+COPY ./ ./
+EXPOSE 5672
+EXPOSE 15672
+
+# Comando para iniciar el proceso
+CMD ["sh", "-c", "python garbage.py"]

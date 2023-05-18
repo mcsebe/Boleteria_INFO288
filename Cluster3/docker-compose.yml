@@ -1,0 +1,71 @@
+version: '3'
+services:
+  nginx:
+    image: nginx
+    ports:
+      - '8088:8088'
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    restart: always
+    depends_on:
+      - slave0
+      - slave1
+      - slave2
+  garbagecollector:
+    build:
+      context: ./GarbageCollector
+      dockerfile: dockerfile
+    depends_on:
+      - db
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+  slave0:
+    build:
+      context: ./token_backend
+      dockerfile: dockerfile
+      args:
+        PORT: $PORT0
+        CONFIGFILE: $CONFIGFILE0
+    depends_on:
+      - db
+    ports:
+      - "5200:5200"
+  slave1:
+    build:
+      context: ./token_backend
+      dockerfile: dockerfile
+      args:
+        PORT: $PORT1
+        CONFIGFILE: $CONFIGFILE1
+    depends_on:
+      - db
+    ports:
+      - "5201:5201"
+
+  slave2:
+    build:
+      context: ./token_backend/
+      dockerfile: dockerfile
+      args:
+        PORT: $PORT2
+        CONFIGFILE: $CONFIGFILE2
+    depends_on:
+      - db
+    ports:
+      - "5202:5202"
+  db:
+    image: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: 1306
+      MYSQL_DATABASE: token
+      MYSQL_USER: user
+      MYSQL_PASSWORD: 1306
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+volumes:
+   data:
+     external: false
