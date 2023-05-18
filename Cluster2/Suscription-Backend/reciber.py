@@ -14,11 +14,12 @@ def get_connection_db(conn):
                             database=conn["database"])
 
 ###############################################################################
-
+time.sleep(60)
 # Establecer la conexión con RabbitMQ
-connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+credentials = pika.PlainCredentials("user","user")
+connection = pika.BlockingConnection(pika.ConnectionParameters("rabbitmq",5672,'/',credentials))
 channel = connection.channel()
-
+print("hola")
 
 # Variables utilizadas
 format = "%H:%M:%S;%d/%m/%Y"
