@@ -17,9 +17,6 @@ services:
       dockerfile: dockerfile
     depends_on:
       - db
-    ports:
-      - "5672:5672"
-      - "15672:15672"
   slave0:
     build:
       context: ./token_backend
