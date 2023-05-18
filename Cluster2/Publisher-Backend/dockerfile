@@ -23,7 +23,7 @@ RUN pip install --no-cache-dir -r requirements.txt \
 
 
 # Copia el resto de los archivos del backend
-COPY ./ app
+COPY publisher-backend ./
 
 
 # Expone el puerto en el que se ejecuta el servidor del backend
