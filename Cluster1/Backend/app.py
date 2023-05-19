@@ -35,7 +35,7 @@ def getInformation():
     current_time_formated = current_time.strftime(format)
     file.write(current_time_formated +
                "; Consulta sobre información;" + str(concert) + "\n")
-
+    file.flush()
 
     return [list(total - taken)] + [model.information(sysConfig["dbConnConfig"], concert)] + [model.location(sysConfig["dbConnConfig"], concert)]
 

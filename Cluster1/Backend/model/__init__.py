@@ -190,5 +190,6 @@ def insert(dbConnConfig, dbConnConfig2, data, format, file):
     current_time_formated = current_time.strftime(format)
     file.write(current_time_formated +
                "; Enviando mensaje para desencolar;" + data["Nombre_Concierto"] + "\n")
+    file.flush()
 
     return resp

@@ -71,7 +71,7 @@ while True:
                     date = datetime.now()
                     date = date.strftime(format)
                     file.write(date + "; Añadiendo token " + body.decode() + " a la base de datos;" + str(timestampFuture) + ";" + queue + "\n")
-
+                    file.flush()
 
                 except (Exception, mariadb.Error) as error :
                     if(connection):
@@ -96,6 +96,7 @@ while True:
                 date = datetime.now()
                 date = date.strftime(format)
                 file.write(date + "; Dejar pasar otro token;" + body.decode() + "\n")
+                file.flush()
 
             else:
                 pass

@@ -75,7 +75,7 @@ while True:
                 current_time_formated = current_time.strftime(format)
                 file.write(current_time_formated +
                            "; Enviando mensaje para desencolar;" + i[2] + "\n")
-
+                file.flush()
             except (Exception, mariadb.Error) as error:
                 if (connection):
                     print("Failed ", error)
