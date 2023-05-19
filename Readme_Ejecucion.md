@@ -7,3 +7,4 @@
 6. Ejecutar el comando "docker-compose up"
 7. En la tercera terminal ingresar a la carpeta Cluster3 con el comando "cd Cluster3"
 8. Ejecutar el comando "docker-compose up"
+9. Dirigirse a http://localhost:5000/ para utilizar la pagina.
