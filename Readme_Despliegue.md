@@ -1,5 +1,5 @@
 ## Como ejecutar el codigo:
-1. Tener instalado subsistema de linux.
+1. Tener instalado subsistema de linux.  
   1.1 Abrir powershell, apretando la tecla "windows" del teclado y escribiendo powershell.  
   1.2 Dar click derecho a powershell y ejecutar como administrador.  
   1.3 Escribir el siguiente comando "wsl --install" y dar enter.  
