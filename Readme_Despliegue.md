@@ -1,4 +1,5 @@
 ## Como ejecutar el codigo:
+### Cabe destacar que estas instrucciones fueron ejecutadas en un dispositvo con sistema operativo windows.
 1. Tener instalado subsistema de linux.  
   1.1 Abrir powershell, apretando la tecla "windows" del teclado y escribiendo powershell.  
   1.2 Dar click derecho a powershell y ejecutar como administrador.  
