@@ -1,5 +1,5 @@
 ## Como ejecutar el codigo:
-### Instruciones para ejecutar en Windows (10/11).
+### Instrucciones para ejecutar en Windows (10/11).
 1. Tener instalado subsistema de linux.  
   1.1 Abrir powershell, apretando la tecla "windows" del teclado y escribiendo powershell.  
   1.2 Dar click derecho a powershell y ejecutar como administrador.  
