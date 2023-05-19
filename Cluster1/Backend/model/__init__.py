@@ -180,8 +180,8 @@ def insert(dbConnConfig, dbConnConfig2, data, format, file):
             connection.close()
 
     # Se envía un mensaje para que se desencole un nuevo usuario
-    connection = pika.BlockingConnection(
-        pika.ConnectionParameters(host='127.0.0.1'))
+    credentials = pika.PlainCredentials("user","user")
+    connection = pika.BlockingConnection(pika.ConnectionParameters("rabbitmq",5672,'/',credentials))
     channel = connection.channel()
     channel.basic_publish(
         exchange='', routing_key="desencolar", body=data["Nombre_Concierto"])

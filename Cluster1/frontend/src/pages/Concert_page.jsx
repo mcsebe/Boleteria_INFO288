@@ -30,6 +30,7 @@ function Concert_page() {
             Token: token,
           })
           .then((response) => {
+            console.log(response.data);
             if (response.data === "SI") {
               const fetchPosts = () => {
                 return axios

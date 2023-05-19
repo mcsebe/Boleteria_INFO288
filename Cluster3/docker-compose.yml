@@ -11,12 +11,16 @@ services:
       - slave0
       - slave1
       - slave2
+    networks:
+      - red
   garbagecollector:
     build:
       context: ./GarbageCollector
       dockerfile: dockerfile
     depends_on:
-      - db
+      - db_token
+    networks:
+      - red
   slave0:
     build:
       context: ./token_backend
@@ -25,9 +29,11 @@ services:
         PORT: $PORT0
         CONFIGFILE: $CONFIGFILE0
     depends_on:
-      - db
+      - db_token
     ports:
       - "5200:5200"
+    networks:
+      - red
   slave1:
     build:
       context: ./token_backend
@@ -36,10 +42,11 @@ services:
         PORT: $PORT1
         CONFIGFILE: $CONFIGFILE1
     depends_on:
-      - db
+      - db_token
     ports:
       - "5201:5201"
-
+    networks:
+      - red
   slave2:
     build:
       context: ./token_backend/
@@ -48,11 +55,14 @@ services:
         PORT: $PORT2
         CONFIGFILE: $CONFIGFILE2
     depends_on:
-      - db
+      - db_token
     ports:
       - "5202:5202"
-  db:
+    networks:
+      - red
+  db_token:
     image: mariadb
+    hostname: db_token
     environment:
       MYSQL_ROOT_PASSWORD: 1306
       MYSQL_DATABASE: token
@@ -63,6 +73,11 @@ services:
       - data:/var/lib/mysql
     ports:
       - "3306:3306"
+    networks:
+      - red
 volumes:
    data:
      external: false
+networks:
+    red:
+        name: red

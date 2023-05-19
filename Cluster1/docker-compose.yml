@@ -6,14 +6,19 @@ services:
       dockerfile: dockerfile
     ports:
       - 5000:5000
+    networks:
+      - red
   backend:
     build:
       context: .
       dockerfile: ./Backend/Dockerfile
     ports:
       - 5001:5001
+    networks:
+      - red
   db_boleteria:
     image: mariadb
+    hostname: db_boleteria
     environment:
       MYSQL_ROOT_PASSWORD: 1306
       MYSQL_DATABASE: token
@@ -23,7 +28,12 @@ services:
       - ./Base de datos/boleteria.sql:/docker-entrypoint-initdb.d/init.sql
       - data:/var/lib/mysql
     ports:
-      - 3306:3306
+      - 3308:3306
+    networks:
+      - red
 volumes:
    data:
      external: false
+networks:
+    red:
+        name: red

@@ -5,7 +5,7 @@ FROM python:3.9-alpine
 WORKDIR /app
 
 # Copia los archivos de requerimientos
-COPY publisher-backend/requirements.txt ./
+COPY Publisher-Backend/requirements.txt ./
 
 # Dependencias de rabbitmq
 
@@ -23,7 +23,7 @@ RUN pip install --no-cache-dir -r requirements.txt \
 
 
 # Copia el resto de los archivos del backend
-COPY publisher-backend ./
+COPY Publisher-Backend ./
 
 
 # Expone el puerto en el que se ejecuta el servidor del backend

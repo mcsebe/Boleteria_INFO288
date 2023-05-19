@@ -8,21 +8,26 @@ services:
       - "5100:5100"
     depends_on:
       - rabbitmq   
+    networks:
+      - red
   suscription-backend:
     build:
       context: .
       dockerfile: /Suscription-Backend/Dockerfile
-    ports:
-      - "80:80"
     depends_on:
       - rabbitmq
-
+    networks:
+      - red
   rabbitmq:
-    image: rabbitmq
-    hostname: rabbitmq
     build:
-      context: rabbit
+      context: /rabbit
       dockerfile: Dockerfile
+    hostname: rabbitmq
     ports:
       - "5672:5672"
       - "15672:15672"
+    networks:
+      - red 
+networks:
+    red:
+        name: red

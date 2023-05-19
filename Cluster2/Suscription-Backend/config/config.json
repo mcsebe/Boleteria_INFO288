@@ -1,4 +1,4 @@
 {
-    "dbConnConfig":{"user":"root", "pass":"", "host":"127.0.0.1", "port": 3306, "database":"token"},
+    "dbConnConfig":{"user":"root", "pass":"1306", "host":"db_token", "port": 3306, "database":"token"},
     "Queues": {"metallica" : 100,  "weeknd": 100, "otros": 100, "desencolar": 0}
 }
