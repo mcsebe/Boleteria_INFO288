@@ -8,4 +8,5 @@ cambiar los puertos utilizados para ejecutar cada aplicacion.
   1.5 Puerto 5200, 5201, 5202 Slaves  
   1.6 Puerto 5672, 15672 RabbitMQ   
   1.7 Puerto 8088 Nginx   
-2. Deben crearse credenciales en RabbitMQ para poder 
+2. En caso de querer modificar aspectos de la aplicacion, en cada carpeta se encuentra un archivo de configuracion.   
+
