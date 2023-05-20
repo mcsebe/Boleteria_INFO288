@@ -9,5 +9,6 @@ cambiar los puertos utilizados para ejecutar cada aplicacion.
   1.6 Puerto 5672, 15672 RabbitMQ   
   1.7 Puerto 8088 Nginx   
 2. En caso de querer modificar aspectos de la aplicacion, en cada carpeta se encuentra un archivo de configuracion.   
-3. Para modificar la cantidad de clientes a soportar con colas, se debe modificar la configuracion del archivo config de la carpeta Suscription-backend
+  2.1 Para modificar la cantidad de clientes a soportar con colas, se debe modificar la configuracion del archivo config de la carpeta Suscription-backend.
+4. 
 
