@@ -20,6 +20,7 @@ def get_connection_db(conn):
 
 def capacity(dbConnConfig, concert):
     resp = []
+    connection = 0
     try:
         connection = get_connection_db(dbConnConfig)
         cursor = connection.cursor()
@@ -45,6 +46,7 @@ def capacity(dbConnConfig, concert):
 
 def available(dbConnConfig, concert):
     resp = []
+    connection = 0
     try:
         connection = get_connection_db(dbConnConfig)
         cursor = connection.cursor()
@@ -71,6 +73,7 @@ def available(dbConnConfig, concert):
 
 def information(dbConnConfig, concert):
     resp = []
+    connection = 0
     try:
         connection = get_connection_db(dbConnConfig)
         cursor = connection.cursor()
@@ -97,6 +100,7 @@ def information(dbConnConfig, concert):
 
 def location(dbConnConfig, concert):
     resp = []
+    connection = 0
     try:
         connection = get_connection_db(dbConnConfig)
         cursor = connection.cursor()
@@ -121,7 +125,7 @@ def location(dbConnConfig, concert):
 # Función que inserta en la base de datos la información de la reserva, elimina el token correspondiente y envía un mensaje a la cola
 
 def insert(dbConnConfig, dbConnConfig2, data, format, file):
-
+    connection = 0
     # Elimina el token que correspondiente al usuario
     try:
         connection = get_connection_db(dbConnConfig2)

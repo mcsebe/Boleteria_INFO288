@@ -20,10 +20,10 @@ services:
     image: mariadb
     hostname: db_boleteria
     environment:
-      MYSQL_ROOT_PASSWORD: 1306
-      MYSQL_DATABASE: token
-      MYSQL_USER: user
-      MYSQL_PASSWORD: 1306
+      MYSQL_ROOT_PASSWORD: pf$6#iAEQ#@y7vMnXiTXLLC#wiEHcn
+      MYSQL_DATABASE: boleteria
+      MYSQL_USER: manager_boleteria
+      MYSQL_PASSWORD: RqoKdtp88Z94v7vL#XKVHPxWdb9dw
     volumes:
       - ./Base de datos/boleteria.sql:/docker-entrypoint-initdb.d/init.sql
       - data:/var/lib/mysql

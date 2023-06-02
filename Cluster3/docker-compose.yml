@@ -64,10 +64,10 @@ services:
     image: mariadb
     hostname: db_token
     environment:
-      MYSQL_ROOT_PASSWORD: 1306
+      MYSQL_ROOT_PASSWORD: fDLb$C^BCx9b&Lxt^ZwFGAXoE2e#8i
       MYSQL_DATABASE: token
-      MYSQL_USER: user
-      MYSQL_PASSWORD: 1306
+      MYSQL_USER: manager_tokens
+      MYSQL_PASSWORD: avL#hFVWQCgVjaZDvBSEQ$#VaP5P6Z
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       - data:/var/lib/mysql
