@@ -4,6 +4,7 @@ import Form from "../components/Form";
 import axios from "axios";
 import Loading from "../components/Loading";
 import { useState, useEffect } from "react";
+import Config from "../config/config.json";
 
 function Concert_page() {
   const [data, setData] = useState("NO");
@@ -26,7 +27,7 @@ function Concert_page() {
     const intervalId = setInterval(() => {
       if (data === "NO") {
         axios
-          .put("http://127.0.0.1:8088/token", {
+          .put(Config.routes.token, {
             Token: token,
           })
           .then((response) => {
@@ -34,7 +35,7 @@ function Concert_page() {
             if (response.data === "SI") {
               const fetchPosts = () => {
                 return axios
-                  .put("http://127.0.0.1:5001/informacion", { Id: id })
+                  .put(Config.routes.information, { Id: id })
                   .then((res) => res.data);
               };
               fetchPosts().then((a) => {

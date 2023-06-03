@@ -8,6 +8,7 @@ import Siames from "../assets/siames2.jpg";
 import molotov from "../assets/molotov.jpg";
 import MovimientoOriginal from "../assets/movimientoOriginal.png";
 import Chystemc from "../assets/chystemc.png";
+import Config from "../config/config.json"
 
 export default function Form(props) {
   const images = [Image, Weeknd, Siames, molotov, MovimientoOriginal, Chystemc];
@@ -44,7 +45,7 @@ export default function Form(props) {
   // -----------------------------------------------------
   const handleSubmit = (event) => {
     event.preventDefault();
-    axios.post(`http://127.0.0.1:5001/subir`, {
+    axios.post(Config.routes.upload, {
       Nombre: name,
       Rut: rut,
       Correo: email,
@@ -54,7 +55,7 @@ export default function Form(props) {
       Nombre_Concierto: props.concert[1][5],
       Token: token,
     });
-    window.location.href = "/";
+    window.location.href = `/concierto/${parseInt(props.concert[1][0])}/pago/${parseInt(selectedSeat)}`;
   };
   return (
     <form onSubmit={handleSubmit}>

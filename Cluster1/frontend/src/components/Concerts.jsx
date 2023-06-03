@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Concert from "../imports/Concert";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import Config from "../config/config.json"
 
 const Concerts = () => {
   function sendInformation(name) {
@@ -10,7 +11,7 @@ const Concerts = () => {
       Math.random().toString(36).substr(2) +
       Math.random().toString(36).substr(2);
     document.cookie = `token=${result}`;
-    axios.put(`http://127.0.0.1:5100/publisher`, {
+    axios.put(Config.routes.publisher, {
       concierto: name,
       mensaje: result,
     });

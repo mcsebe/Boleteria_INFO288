@@ -7,6 +7,7 @@ import os
 
 
 def get_connection_db(conn):
+    print(conn)
     return mariadb.connect(user=conn["user"],
                            password=conn["pass"],
                            host=conn["host"],
