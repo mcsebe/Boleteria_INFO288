@@ -161,10 +161,10 @@ def insert(dbConnConfig, dbConnConfig2, data, format, file):
         connection = get_connection_db(dbConnConfig)
         cursor = connection.cursor()
 
-        sqlStatement = """INSERT INTO reserva (Asiento, Nombre, Rut, Edad, Correo, id_concierto) VALUES (%s, %s, %s, %s, %s, %s)"""
+        sqlStatement = """INSERT INTO reserva (Asiento, Nombre, Rut, Edad, Correo, id_concierto, TiempoSelec, TiempoPago) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"""
 
         cursor.execute(sqlStatement, (int(data["Asiento"]), data["Nombre"], data["Rut"], int(
-            data["Edad"]), data["Correo"], int(data["Id_concierto"])))
+            data["Edad"]), data["Correo"], int(data["Id_concierto"]), data["T1"], data["T2"]))
         connection.commit()
         resp["inserted_rows"] = cursor.rowcount
 

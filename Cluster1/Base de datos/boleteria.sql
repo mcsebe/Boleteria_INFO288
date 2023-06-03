@@ -68,10 +68,12 @@ CREATE TABLE IF NOT EXISTS `reserva` (
   `Edad` int(11) NOT NULL,
   `Correo` varchar(50) NOT NULL DEFAULT '',
   `id_concierto` int(11) NOT NULL DEFAULT 0,
+  `TiempoSelec` datetime DEFAULT NULL,
+  `TiempoPago` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_concierto` (`id_concierto`),
   CONSTRAINT `FK_reserva_concierto` FOREIGN KEY (`id_concierto`) REFERENCES `concierto` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
 
 -- Volcando datos para la tabla boleteria.reserva: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `reserva` DISABLE KEYS */;

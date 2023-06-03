@@ -1,16 +1,16 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import Image from "../assets/metallica_logo.webp";
 import Weeknd from "../assets/the_weeknd_logo.webp";
 import Siames from "../assets/siames2.jpg";
 import molotov from "../assets/molotov.jpg";
 import MovimientoOriginal from "../assets/movimientoOriginal.png";
 import Chystemc from "../assets/chystemc.png";
-import Config from "../config/config.json"
+import { useNavigate  } from 'react-router-dom';
+import moment from 'moment';
 
 export default function Form(props) {
+  const history = useNavigate();
   const images = [Image, Weeknd, Siames, molotov, MovimientoOriginal, Chystemc];
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -45,7 +45,8 @@ export default function Form(props) {
   // -----------------------------------------------------
   const handleSubmit = (event) => {
     event.preventDefault();
-    axios.post(Config.routes.upload, {
+
+    const propsToSend = {
       Nombre: name,
       Rut: rut,
       Correo: email,
@@ -54,8 +55,10 @@ export default function Form(props) {
       Id_concierto: parseInt(props.concert[1][0]),
       Nombre_Concierto: props.concert[1][5],
       Token: token,
-    });
-    window.location.href = `/concierto/${parseInt(props.concert[1][0])}/pago/${parseInt(selectedSeat)}`;
+      T1: moment().format('YYYY-MM-DD HH:mm:ss'),
+    };
+    const paymentUrl = `/concierto/${parseInt(props.concert[1][0])}/pago`
+    history(paymentUrl , { state: propsToSend });
   };
   return (
     <form onSubmit={handleSubmit}>
