@@ -89,4 +89,4 @@ while True:
         print("Failed ", error)
 
     # Espera 10 segundos para volver a realizar la acción
-    time.sleep(10)
+    time.sleep(dbConnConfig["Time"])

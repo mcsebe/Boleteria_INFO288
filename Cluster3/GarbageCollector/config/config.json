@@ -1,3 +1,4 @@
 {
-    "dbConnConfig":{"user":"manager_tokens", "pass":"avL#hFVWQCgVjaZDvBSEQ$#VaP5P6Z", "host":"db_token", "port": 3306, "database":"token"}
+    "dbConnConfig":{"user":"manager_tokens", "pass":"avL#hFVWQCgVjaZDvBSEQ$#VaP5P6Z", "host":"db_token", "port": 3306, "database":"token"},
+    "Time": 10
 }
