@@ -10,6 +10,19 @@ import { useNavigate  } from 'react-router-dom';
 import moment from 'moment';
 
 export default function Form(props) {
+
+  // Crear diccionario vacío
+  const places = {};
+  let j = 0;
+  // Recorrer el arreglo de dos en dos
+  for (let i = 0; i < props.concert[0].length; i += 2) {
+    const key = props.concert[0][i];
+    const value =  [props.concert[2][j + 5] - props.concert[0][i + 1], props.concert[1][j + 2]];
+    j = j + 1;
+  
+    // Asignar el valor al diccionario
+    places[key] = value;
+  }
   const history = useNavigate();
   const images = [Image, Weeknd, Siames, molotov, MovimientoOriginal, Chystemc];
   const [email, setEmail] = useState("");
@@ -17,6 +30,7 @@ export default function Form(props) {
   const [selectedSeat, setSelectedSeat] = useState("");
   const [rut, setRut] = useState("");
   const [age, setAge] = useState("");
+  const [price, setPrice] = useState("-");
   const cookies = document.cookie.split(";");
   // Busca la cookie con el nombre "token"
   const tokenCookie = cookies.find((cookie) =>
@@ -41,6 +55,7 @@ export default function Form(props) {
   };
   const handleSeatChange = (event) => {
     setSelectedSeat(event.target.value);
+    setPrice(places[event.target.value][1]);
   };
   // -----------------------------------------------------
   const handleSubmit = (event) => {
@@ -51,11 +66,12 @@ export default function Form(props) {
       Rut: rut,
       Correo: email,
       Edad: age,
-      Asiento: parseInt(selectedSeat),
+      Asiento: selectedSeat,
       Id_concierto: parseInt(props.concert[1][0]),
-      Nombre_Concierto: props.concert[1][5],
+      Nombre_Concierto: props.concert[1][7],
       Token: token,
       T1: moment().format('YYYY-MM-DD HH:mm:ss'),
+      Price: price
     };
     const paymentUrl = `/concierto/${parseInt(props.concert[1][0])}/pago`
     history(paymentUrl , { state: propsToSend });
@@ -153,7 +169,7 @@ export default function Form(props) {
                 htmlFor="Asiento"
                 className="block text-sm font-bold leading-6 text-gray-900"
               >
-                Asiento
+                Lugar
               </label>
               <div className="mt-2">
                 <select
@@ -164,10 +180,12 @@ export default function Form(props) {
                   required
                 >
                   <option value="" disabled>
-                    Seleccione un asiento
+                    Seleccione el Lugar
                   </option>
-                  {props.concert[0].map((e) => (
-                    <option value={e}>{e}</option>
+                  {Object.entries(places).map(([keyP, valueP]) => (
+                    valueP[0] !== 0 && (
+                      <option value={keyP}>{keyP} ({valueP[0]} disponibles)</option>
+                    )
                   ))}
                 </select>
               </div>
@@ -185,8 +203,8 @@ export default function Form(props) {
             <p className="mt-5 md:mt-1 text-sm leading-6 text-gray-600">
               Nombre: {props.concert[1][1]}
               <br />
-              Precio: ${props.concert[1][2]} <br />
-              Fecha del concierto: {props.concert[1][3]}
+              Precio: ${price} <br />
+              Fecha del concierto: {props.concert[1][5]}
             </p>
             <h3>Ubicación</h3>
             <p className="mt-5 md:mt-1 text-sm leading-6 text-gray-600">

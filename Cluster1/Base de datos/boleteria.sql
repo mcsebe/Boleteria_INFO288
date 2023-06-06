@@ -22,6 +22,8 @@ CREATE TABLE IF NOT EXISTS `concierto` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `Nombre` varchar(50) NOT NULL,
   `Precio` int(11) NOT NULL,
+  `Precio2` int(11) DEFAULT NULL,
+  `Precio3` int(11) DEFAULT NULL,
   `Fecha` datetime NOT NULL,
   `id_locacion` int(11) NOT NULL,
   `Cola` varchar(50) DEFAULT NULL,
@@ -32,13 +34,13 @@ CREATE TABLE IF NOT EXISTS `concierto` (
 
 -- Volcando datos para la tabla boleteria.concierto: ~6 rows (aproximadamente)
 /*!40000 ALTER TABLE `concierto` DISABLE KEYS */;
-INSERT INTO `concierto` (`id`, `Nombre`, `Precio`, `Fecha`, `id_locacion`, `Cola`) VALUES
-	(1, 'Metallica', 40000, '2023-11-20 17:00:00', 1, 'metallica'),
-	(2, 'The Weeknd', 40000, '2023-12-01 18:30:00', 1, 'weeknd'),
-	(3, 'Siames', 15000, '2023-06-28 18:00:00', 2, 'otros'),
-	(4, 'Molotov', 20000, '2023-08-20 19:00:00', 2, 'otros'),
-	(5, 'Movimiento Original', 12000, '2023-08-04 20:00:00', 3, 'otros'),
-	(6, 'Chyste-MC', 12000, '2023-07-17 19:00:00', 3, 'otros');
+INSERT INTO `concierto` (`id`, `Nombre`, `Precio`, `Precio2`, `Precio3`, `Fecha`, `id_locacion`, `Cola`) VALUES
+	(1, 'Metallica', 40000, 55000, 75000, '2023-11-20 17:00:00', 1, 'metallica'),
+	(2, 'The Weeknd', 40000, 60000, 80000, '2023-12-01 18:30:00', 1, 'weeknd'),
+	(3, 'Siames', 15000, 20000, 30000, '2023-06-29 18:00:00', 2, 'otros'),
+	(4, 'Molotov', 20000, 30000, 40000, '2023-08-20 19:00:00', 2, 'otros'),
+	(5, 'Movimiento Original', 12000, 12000, 12000, '2023-08-04 20:00:00', 3, 'otros'),
+	(6, 'Chyste-MC', 12000, 12000, 12000, '2023-07-17 19:00:00', 3, 'otros');
 /*!40000 ALTER TABLE `concierto` ENABLE KEYS */;
 
 -- Volcando estructura para tabla boleteria.locacion
@@ -48,21 +50,24 @@ CREATE TABLE IF NOT EXISTS `locacion` (
   `Ciudad` varchar(50) NOT NULL DEFAULT '0',
   `Region` varchar(50) NOT NULL DEFAULT '0',
   `Capacidad` int(11) NOT NULL DEFAULT 0,
+  `Galeria` int(11) DEFAULT NULL,
+  `Cancha` int(11) DEFAULT NULL,
+  `Andes` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
 
 -- Volcando datos para la tabla boleteria.locacion: ~3 rows (aproximadamente)
 /*!40000 ALTER TABLE `locacion` DISABLE KEYS */;
-INSERT INTO `locacion` (`id`, `Nombre`, `Ciudad`, `Region`, `Capacidad`) VALUES
-	(1, 'Estadio Bicentenario', 'Santiago', 'Metropolitana', 1000),
-	(2, 'Estadio Monumental', 'Santiago', 'Metropolitana', 1000),
-	(3, 'Parque Saval', 'Valdivia', 'Los Ríos', 500);
+INSERT INTO `locacion` (`id`, `Nombre`, `Ciudad`, `Region`, `Capacidad`, `Galeria`, `Cancha`, `Andes`) VALUES
+	(1, 'Estadio Bicentenario', 'Santiago', 'Metropolitana', 1000, 200, 400, 400),
+	(2, 'Estadio Monumental', 'Santiago', 'Metropolitana', 1000, 200, 400, 400),
+	(3, 'Parque Saval', 'Valdivia', 'Los Ríos', 500, 0, 500, 0);
 /*!40000 ALTER TABLE `locacion` ENABLE KEYS */;
 
 -- Volcando estructura para tabla boleteria.reserva
 CREATE TABLE IF NOT EXISTS `reserva` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `Asiento` int(11) NOT NULL,
+  `Asiento` varchar(50) NOT NULL DEFAULT '',
   `Nombre` varchar(50) NOT NULL DEFAULT '',
   `Rut` varchar(50) NOT NULL DEFAULT '',
   `Edad` int(11) NOT NULL,
@@ -70,6 +75,7 @@ CREATE TABLE IF NOT EXISTS `reserva` (
   `id_concierto` int(11) NOT NULL DEFAULT 0,
   `TiempoSelec` datetime DEFAULT NULL,
   `TiempoPago` datetime DEFAULT NULL,
+  `Precio` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_concierto` (`id_concierto`),
   CONSTRAINT `FK_reserva_concierto` FOREIGN KEY (`id_concierto`) REFERENCES `concierto` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION

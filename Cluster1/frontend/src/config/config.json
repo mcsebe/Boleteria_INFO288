@@ -2,6 +2,7 @@
     "min": 2, 
     "max": 3,
     "probability": 80,
+    "token_seg": 5,
     "routes":{
         "token": "http://127.0.0.1:8088/token",
         "information": "http://127.0.0.1:5001/informacion",

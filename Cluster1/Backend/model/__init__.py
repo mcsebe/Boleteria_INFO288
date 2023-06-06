@@ -16,43 +16,17 @@ def get_connection_db(conn):
 
 ###############################################################################
 
-# Función que retorna la capacidad del lugar donde se realizará el concierto
-
-
-def capacity(dbConnConfig, concert):
-    resp = []
-    connection = 0
-    try:
-        connection = get_connection_db(dbConnConfig)
-        cursor = connection.cursor()
-        sqlStatement = """SELECT locacion.capacidad FROM locacion JOIN concierto ON locacion.id = concierto.id_locacion WHERE concierto.id = (%s)"""
-        cursor.execute(sqlStatement, [concert])
-        resp = cursor.fetchall()
-        resp = [item for sublist in resp for item in sublist]
-
-    except (Exception, mariadb.Error) as error:
-        resp = str(error)
-        if (connection):
-            print("Failed select ", error)
-
-    finally:
-        if (connection):
-            cursor.close()
-            connection.close()
-
-    return resp
 
 # Función que retorna los asientos ya reservados de un concierto
-
 
 def available(dbConnConfig, concert):
     resp = []
     connection = 0
     try:
+
         connection = get_connection_db(dbConnConfig)
         cursor = connection.cursor()
-
-        sqlStatement = """SELECT asiento FROM reserva WHERE id_concierto = (%s)"""
+        sqlStatement = """SELECT t.Asiento, COALESCE(count(r.Asiento), 0) AS Suma_Asientos FROM ( SELECT 'Galeria' AS Asiento UNION ALL SELECT 'Cancha' AS Asiento UNION ALL SELECT 'Andes' AS Asiento ) AS t LEFT JOIN reserva AS r ON r.Asiento = t.Asiento AND r.id_concierto = (%s) GROUP BY t.Asiento"""
         cursor.execute(sqlStatement, [concert])
         resp = cursor.fetchall()
         resp = [item for sublist in resp for item in sublist]
@@ -155,16 +129,15 @@ def insert(dbConnConfig, dbConnConfig2, data, format, file):
             connection.close()
 
     resp = {"inserted_rows": -1}
-
+    
     # Se inserta la información del formulario en la base de datos
     try:
         connection = get_connection_db(dbConnConfig)
         cursor = connection.cursor()
 
-        sqlStatement = """INSERT INTO reserva (Asiento, Nombre, Rut, Edad, Correo, id_concierto, TiempoSelec, TiempoPago) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"""
+        sqlStatement = """INSERT INTO reserva (Asiento, Nombre, Rut, Edad, Correo, id_concierto, TiempoSelec, TiempoPago, Precio) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"""
 
-        cursor.execute(sqlStatement, (int(data["Asiento"]), data["Nombre"], data["Rut"], int(
-            data["Edad"]), data["Correo"], int(data["Id_concierto"]), data["T1"], data["T2"]))
+        cursor.execute(sqlStatement, (data["Asiento"], data["Nombre"], data["Rut"], int(data["Edad"]), data["Correo"], int(data["Id_concierto"]), data["T1"], data["T2"], int(data["Price"])))
         connection.commit()
         resp["inserted_rows"] = cursor.rowcount
 
@@ -172,6 +145,7 @@ def insert(dbConnConfig, dbConnConfig2, data, format, file):
         current_time_formated = current_time.strftime(format)
         file.write(current_time_formated + "; Insertando en la tabla reserva " + str(data["Asiento"]) + ";" + data["Nombre"] + ";" + data["Rut"] + ";" + str(
             data["Edad"]) + ";" + data["Correo"] + ";" + str(data["Id_concierto"]) + "\n")
+        file.flush()
 
     except (Exception, mariadb.Error) as error:
         resp = str(error)

@@ -61,7 +61,7 @@ function Concert_page() {
           setData("NO");
         }
       }
-    }, 5000);
+    }, Config.token_seg * 1000);
 
     return () => {
       clearInterval(intervalId);

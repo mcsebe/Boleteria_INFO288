@@ -11,12 +11,12 @@ export default function Payment() {
     const [time, setTime] = useState(Math.floor((Config.min * 60000) + Math.random() * ((Config.max - Config.min) * 60000)));
     const location = useLocation();
     const props = location.state;
+
     // Luego de "time" tiempo (Ej: entre 2 y 3 min) se genera un numero aleatorio entre 0 y 100 que representa la probabilidad del pago
     // Si es menor a la probabilidad establecida en el archivo config, entonces se inserta a la base de datos, en caso contrario, se descarta
     useEffect(() => {
         const intervalId = setInterval(() => {
             const probability = Math.floor( Math.random() * 100);
-            console.log(probability);
             if(probability <= Config.probability){
                 axios.post(Config.routes.upload, {
                     Nombre: props.Nombre,
@@ -28,7 +28,8 @@ export default function Payment() {
                     Nombre_Concierto: props.Nombre_Concierto,
                     Token: props.Token,
                     T1: props.T1,
-                    T2: moment().format('YYYY-MM-DD HH:mm:ss')
+                    T2: moment().format('YYYY-MM-DD HH:mm:ss'),
+                    Price: props.Price
                 });
                 setTime(900000000);
                 swal({

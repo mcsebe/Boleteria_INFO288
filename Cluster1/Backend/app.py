@@ -26,10 +26,7 @@ except:
 @app.route('/informacion', methods=['GET', 'PUT'])
 def getInformation():
     concert = int(request.json["Id"])
-    total = set(range(1, model.capacity(
-        sysConfig["dbConnConfig"], concert)[0] + 1))
-    taken = set(model.available(sysConfig["dbConnConfig"], concert))
-
+    
     # Escribe en el log de eventos
     current_time = datetime.now()
     current_time_formated = current_time.strftime(format)
@@ -37,7 +34,7 @@ def getInformation():
                "; Consulta sobre información;" + str(concert) + "\n")
     file.flush()
 
-    return [list(total - taken)] + [model.information(sysConfig["dbConnConfig"], concert)] + [model.location(sysConfig["dbConnConfig"], concert)]
+    return [model.available(sysConfig["dbConnConfig"], concert)] + [model.information(sysConfig["dbConnConfig"], concert)] + [model.location(sysConfig["dbConnConfig"], concert)]
 
 # Ruta que envia los datos del formulario a la base de Datos
 @app.route('/subir', methods=['POST'])
