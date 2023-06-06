@@ -3,5 +3,9 @@
     "port": 5001,
     "server_name":"master",
     "dbConnConfig":{"user":"manager_boleteria", "pass":"RqoKdtp88Z94v7vL#XKVHPxWdb9dw", "host":"db_boleteria", "port": 3306, "database":"boleteria"},
-    "dbConnConfig2":{"user":"manager_tokens", "pass":"avL#hFVWQCgVjaZDvBSEQ$#VaP5P6Z", "host":"db_token", "port": 3306, "database":"token"}
+    "dbConnConfig2":{"user":"manager_tokens", "pass":"avL#hFVWQCgVjaZDvBSEQ$#VaP5P6Z", "host":"db_token", "port": 3306, "database":"token"},
+    "rabbit": {
+        "user": "user_rabbit",
+        "password": "TZ3a2iU7h7u5AjeGvGj5!efMBVVvSQ"
+    }
 }

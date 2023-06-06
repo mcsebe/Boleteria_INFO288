@@ -99,7 +99,7 @@ def location(dbConnConfig, concert):
 
 # Función que inserta en la base de datos la información de la reserva, elimina el token correspondiente y envía un mensaje a la cola
 
-def insert(dbConnConfig, dbConnConfig2, data, format, file):
+def insert(dbConnConfig, dbConnConfig2, data, format, file, Rabbit):
     connection = 0
     # Elimina el token que correspondiente al usuario
     try:
@@ -159,7 +159,7 @@ def insert(dbConnConfig, dbConnConfig2, data, format, file):
             connection.close()
 
     # Se envía un mensaje para que se desencole un nuevo usuario
-    credentials = pika.PlainCredentials("user","user")
+    credentials = pika.PlainCredentials(Rabbit["user"],Rabbit["password"])
     connection = pika.BlockingConnection(pika.ConnectionParameters("rabbitmq",5672,'/',credentials))
     channel = connection.channel()
     channel.basic_publish(

@@ -15,13 +15,14 @@ CORS(app)
 app.run(debug=True)
 time.sleep(60)
 # Iniciando la conexión con RabbitMQ
-credentials = pika.PlainCredentials("user","user")
+credentials = pika.PlainCredentials(sysConfig["rabbit"]["user"],sysConfig["rabbit"]["password"])
 connection = pika.BlockingConnection(pika.ConnectionParameters("rabbitmq",5672,'/',credentials))
 channel = connection.channel()
 
 
 for i in sysConfig:
-    channel.queue_declare(queue=sysConfig[i])
+    if(type(sysConfig[i]) == str):
+        channel.queue_declare(queue=sysConfig[i])
 
 # Abriendo el archivo Log
 format = "%H:%M:%S;%d/%m/%Y"
@@ -35,7 +36,7 @@ except:
 # Ruta que envía el token recibido a la cola correspondiente
 @app.route('/publisher', methods=['PUT'])
 def getPublisher():
-    credentials = pika.PlainCredentials("user","user")
+    credentials = pika.PlainCredentials(sysConfig["rabbit"]["user"],sysConfig["rabbit"]["password"])
     connection = pika.BlockingConnection(pika.ConnectionParameters("rabbitmq",5672,'/',credentials))
     channel = connection.channel()
     data = request.json

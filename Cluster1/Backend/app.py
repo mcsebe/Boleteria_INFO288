@@ -40,4 +40,4 @@ def getInformation():
 @app.route('/subir', methods=['POST'])
 def createReservation():
     data = request.json
-    return model.insert(sysConfig["dbConnConfig"], sysConfig["dbConnConfig2"], data, format, file)
+    return model.insert(sysConfig["dbConnConfig"], sysConfig["dbConnConfig2"], data, format, file, sysConfig["rabbit"])

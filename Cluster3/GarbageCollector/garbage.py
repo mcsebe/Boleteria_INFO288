@@ -16,7 +16,7 @@ def get_connection_db(conn):
 
 
 # Se establece la conexión con RabbitMQ
-credentials = pika.PlainCredentials("user","user")
+credentials = pika.PlainCredentials(dbConnConfig["rabbit"]["user"],dbConnConfig["rabbit"]["password"])
 connectionQ = pika.BlockingConnection(pika.ConnectionParameters("rabbitmq",5672,'/',credentials))
 channel = connectionQ.channel()
 
