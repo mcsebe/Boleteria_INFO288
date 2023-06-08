@@ -99,7 +99,7 @@ def location(dbConnConfig, concert):
 
 # Función que inserta en la base de datos la información de la reserva, elimina el token correspondiente y envía un mensaje a la cola
 
-def insert(dbConnConfig, dbConnConfig2, data, format, file, Rabbit):
+def insert(dbConnConfig, dbConnConfig2, data, logger, Rabbit):
     connection = 0
     # Elimina el token que correspondiente al usuario
     try:
@@ -113,10 +113,7 @@ def insert(dbConnConfig, dbConnConfig2, data, format, file, Rabbit):
         cursor.execute(sqlStatement)
         connection.commit()
 
-        current_time = datetime.now()
-        current_time_formated = current_time.strftime(format)
-        file.write(current_time_formated + "; Eliminando token " +
-                   data["Token"] + " de la base de datos \n")
+        logger.info("Eliminando token " + data["Token"] + " de la base de datos")
 
     except (Exception, mariadb.Error) as error:
         if (connection):
@@ -141,11 +138,7 @@ def insert(dbConnConfig, dbConnConfig2, data, format, file, Rabbit):
         connection.commit()
         resp["inserted_rows"] = cursor.rowcount
 
-        current_time = datetime.now()
-        current_time_formated = current_time.strftime(format)
-        file.write(current_time_formated + "; Insertando en la tabla reserva " + str(data["Asiento"]) + ";" + data["Nombre"] + ";" + data["Rut"] + ";" + str(
-            data["Edad"]) + ";" + data["Correo"] + ";" + str(data["Id_concierto"]) + "\n")
-        file.flush()
+        logger.info("Insertando en la tabla reserva " + str(data["Asiento"]) + ";" + data["Nombre"] + ";" + data["Rut"] + ";" + str(data["Edad"]) + ";" + data["Correo"] + ";" + str(data["Id_concierto"]))
 
     except (Exception, mariadb.Error) as error:
         resp = str(error)
@@ -165,10 +158,6 @@ def insert(dbConnConfig, dbConnConfig2, data, format, file, Rabbit):
     channel.basic_publish(
         exchange='', routing_key="desencolar", body=data["Nombre_Concierto"])
 
-    current_time = datetime.now()
-    current_time_formated = current_time.strftime(format)
-    file.write(current_time_formated +
-               "; Enviando mensaje para desencolar;" + data["Nombre_Concierto"] + "\n")
-    file.flush()
+    logger.info("Enviando mensaje para desencolar;" + data["Nombre_Concierto"])
 
     return resp

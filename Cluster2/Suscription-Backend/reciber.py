@@ -3,6 +3,7 @@ import mariadb
 import time
 from datetime import datetime, timedelta
 from common import *
+import logging
 
 
 ###############################################################################
@@ -20,14 +21,13 @@ credentials = pika.PlainCredentials(sysConnConfig["rabbit"]["user"],sysConnConfi
 connection = pika.BlockingConnection(pika.ConnectionParameters("rabbitmq",5672,'/',credentials))
 channel = connection.channel()
 
-# Variables utilizadas
-format = "%H:%M:%S;%d/%m/%Y"
-fileW = os.getcwd() + "\\Log\\"+ "logs.txt"
-try:
-    file = open(fileW, 'a+')
-except:
-    fileL = os.getcwd() + "/files/"+ "logs.txt"
-    file = open(fileL, 'a+')
+
+logging.getLogger("pika").propagate = False
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+handler = logging.FileHandler(sysConnConfig["log_rute"])
+handler.setFormatter(logging.Formatter('%(asctime)s;%(message)s', datefmt="%H:%M:%S;%d/%m/%Y"))
+logger.addHandler(handler)
 
 counters = { }
 
@@ -49,7 +49,7 @@ while True:
                     # Obtener el timestamp actual
                     timestampNow = int(time.time())
                     # Sumar 5 minutos
-                    timestampFuture = datetime.fromtimestamp(timestampNow) + timedelta(minutes=5)
+                    timestampFuture = datetime.fromtimestamp(timestampNow) + timedelta(minutes=sysConnConfig["time_exp"])
                     # Convertir a timestamp Unix
                     timestampFuture = int(timestampFuture.timestamp())
 
@@ -67,10 +67,7 @@ while True:
                     connection.commit()
 
                     # Escribe en el log de eventos
-                    date = datetime.now()
-                    date = date.strftime(format)
-                    file.write(date + "; Añadiendo token " + body.decode() + " a la base de datos;" + str(timestampFuture) + ";" + queue + "\n")
-                    file.flush()
+                    logger.info("Añadiendo token " + body.decode() + " a la base de datos;" + str(timestampFuture) + ";" + queue)
 
                 except (Exception, mariadb.Error) as error :
                     if(connection):
@@ -92,10 +89,7 @@ while True:
                     counters[body.decode()] = 0 
 
                 # Escribe en el log de eventos
-                date = datetime.now()
-                date = date.strftime(format)
-                file.write(date + "; Dejar pasar otro token;" + body.decode() + "\n")
-                file.flush()
+                logger.info("Dejar pasar otro token;" + body.decode())
 
             else:
                 pass

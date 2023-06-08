@@ -3,23 +3,23 @@ from flask import Flask, request, jsonify, json
 from common import *
 import model
 from datetime import datetime, timedelta
-
+import logging
 from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
-
 CORS(app)
-
 app.run(debug=True)
 
-# Abriendo el log de eventos
-format = "%H:%M:%S;%d/%m/%Y"
-wFile = os.getcwd() + "\\Log\\" + "logs.txt"
-try:
-    file = open(wFile, 'a+')
-except:
-    logs = os.getcwd() + "/files/" + "logs.txt"
-    file = open(logs, 'a+')
+app.logger.disabled = True
+log = logging.getLogger('werkzeug')
+log.disabled = True
+logging.getLogger("pika").propagate = False
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+handler = logging.FileHandler(sysConfig["log_rute"])
+handler.setFormatter(logging.Formatter('%(asctime)s;%(message)s', datefmt="%H:%M:%S;%d/%m/%Y"))
+logger.addHandler(handler)
 
 
 # Ruta que entrega la información del concierto: Capacidad, Asientos disponibles e información general presente en la base de datos
@@ -28,11 +28,7 @@ def getInformation():
     concert = int(request.json["Id"])
     
     # Escribe en el log de eventos
-    current_time = datetime.now()
-    current_time_formated = current_time.strftime(format)
-    file.write(current_time_formated +
-               "; Consulta sobre información;" + str(concert) + "\n")
-    file.flush()
+    logger.info("Consulta sobre información;" + str(concert))
 
     return [model.available(sysConfig["dbConnConfig"], concert)] + [model.information(sysConfig["dbConnConfig"], concert)] + [model.location(sysConfig["dbConnConfig"], concert)]
 
@@ -40,4 +36,4 @@ def getInformation():
 @app.route('/subir', methods=['POST'])
 def createReservation():
     data = request.json
-    return model.insert(sysConfig["dbConnConfig"], sysConfig["dbConnConfig2"], data, format, file, sysConfig["rabbit"])
+    return model.insert(sysConfig["dbConnConfig"], sysConfig["dbConnConfig2"], data, logger, sysConfig["rabbit"])

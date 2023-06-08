@@ -2,6 +2,7 @@ from flask import Flask, json
 import time
 import sys
 from flask_cors import CORS, cross_origin
+import logging
 ###############################################################################
 def current_milli_time(): return int(round(time.time() * 1000))
 
@@ -24,5 +25,8 @@ def read_config():
 
 # CONSTANTE DEL SISTEMA
 app = Flask(__name__)
+app.logger.disabled = True
+log = logging.getLogger('werkzeug')
+log.disabled = True
 CORS(app)
 sysConfig = read_config()

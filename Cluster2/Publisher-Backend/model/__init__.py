@@ -4,12 +4,8 @@ import os
 
 
 # Función que envía el token a la cola correspondiente
-def queueUp(route, message, channel, file, format):
+def queueUp(route, message, channel, logger):
     # Escribe en el log de eventos
     # ----------------------------------------------------------------------------
-    current_time = datetime.now()
-    current_time_formated = current_time.strftime(format)
-    file.write(current_time_formated + "; Encolando token " +
-               message + ";" + route + "\n")
-    file.flush()
+    logger.info("Encolando token " +  message + ";" + route)
     channel.basic_publish(exchange='', routing_key=route, body=message)

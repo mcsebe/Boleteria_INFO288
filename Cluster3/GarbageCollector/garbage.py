@@ -3,6 +3,7 @@ import mariadb
 import time
 from datetime import datetime, timedelta
 from common import *
+import logging
 
 ###############################################################################
 def get_connection_db(conn):
@@ -22,17 +23,15 @@ channel = connectionQ.channel()
 
 # Variables que se utilizarán
 queue = 'desencolar'
-format = "%H:%M:%S;%d/%m/%Y"
-
-logW = os.getcwd() + "\\Log\\" + "logs.txt"
-try:
-    file = open(logW, 'a+')
-except:
-    logL = os.getcwd() + "/files/" + "logs.txt"
-    file = open(logL, 'a+')
-
 channel.queue_declare(queue=queue)
 
+
+logging.getLogger("pika").propagate = False
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+handler = logging.FileHandler(dbConnConfig["log_rute"])
+handler.setFormatter(logging.Formatter('%(asctime)s;%(message)s', datefmt="%H:%M:%S;%d/%m/%Y"))
+logger.addHandler(handler)
 
 # Función que se ejecuta permanente mente y elimina de la base de datos los tokens expirados
 while True:
@@ -56,13 +55,10 @@ while True:
                 cursor.execute(sqlStatement)
                 connection.commit()
 
-            # Escribe en el log de eventos
-                current_time = datetime.now()
-                current_time_formated = current_time.strftime(format)
-                file.write(current_time_formated + "; Eliminando token " +
-                           i[0] + " de la base de datos \n")
+                # Escribe en el log de eventos
+                logger.info("Eliminando token " + i[0] + " de la base de datos")
 
-            # Envía un mensaje para que se desencole otro usuario
+                # Envía un mensaje para que se desencole otro usuario
 
                 connectionQ = pika.BlockingConnection(
                     pika.ConnectionParameters(host='127.0.0.1'))
@@ -70,12 +66,8 @@ while True:
                 channel.basic_publish(
                     exchange='', routing_key="desencolar", body=i[2])
 
-            # Vuelve a escribir en el log de eventos
-                current_time = datetime.now()
-                current_time_formated = current_time.strftime(format)
-                file.write(current_time_formated +
-                           "; Enviando mensaje para desencolar;" + i[2] + "\n")
-                file.flush()
+                # Vuelve a escribir en el log de eventos
+                logger.info("Enviando mensaje para desencolar;" + i[2])
             except (Exception, mariadb.Error) as error:
                 if (connection):
                     print("Failed ", error)

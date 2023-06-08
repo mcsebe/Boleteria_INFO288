@@ -7,5 +7,6 @@
     "rabbit": {
         "user": "user_rabbit",
         "password": "TZ3a2iU7h7u5AjeGvGj5!efMBVVvSQ"
-    }
+    },
+    "log_rute": "Log/backend.log"
 }

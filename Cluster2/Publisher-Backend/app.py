@@ -5,6 +5,7 @@ from common import *
 import model
 import os
 import time
+import logging
 
 from flask_cors import CORS, cross_origin
 
@@ -13,7 +14,7 @@ app = Flask(__name__)
 CORS(app)
 
 app.run(debug=True)
-time.sleep(60)
+time.sleep(30)
 # Iniciando la conexión con RabbitMQ
 credentials = pika.PlainCredentials(sysConfig["rabbit"]["user"],sysConfig["rabbit"]["password"])
 connection = pika.BlockingConnection(pika.ConnectionParameters("rabbitmq",5672,'/',credentials))
@@ -21,17 +22,20 @@ channel = connection.channel()
 
 
 for i in sysConfig:
-    if(type(sysConfig[i]) == str):
+    if(type(sysConfig[i]) == str and i !="log_rute"):
         channel.queue_declare(queue=sysConfig[i])
 
-# Abriendo el archivo Log
-format = "%H:%M:%S;%d/%m/%Y"
-logW = os.getcwd() + "\\Log\\" + "logs.txt"
-try:
-    file = open(logW, 'a+')
-except:
-    logL = os.getcwd() + "/files/" + "logs.txt"
-    file = open(logL, 'a+')
+
+app.logger.disabled = True
+log = logging.getLogger('werkzeug')
+log.disabled = True
+logging.getLogger("pika").propagate = False
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+handler = logging.FileHandler(sysConfig["log_rute"])
+handler.setFormatter(logging.Formatter('%(asctime)s;%(message)s', datefmt="%H:%M:%S;%d/%m/%Y"))
+logger.addHandler(handler)
 
 # Ruta que envía el token recibido a la cola correspondiente
 @app.route('/publisher', methods=['PUT'])
@@ -42,10 +46,10 @@ def getPublisher():
     data = request.json
     if data["concierto"] and data["mensaje"]:
         try:
-            model.queueUp(sysConfig[data["concierto"]],data["mensaje"], channel, file, format)
+            model.queueUp(sysConfig[data["concierto"]],data["mensaje"], channel, logger)
             return "Encolado"
         except:
-            model.queueUp(sysConfig["Otros"], data["mensaje"], channel, file, format)
+            model.queueUp(sysConfig["Otros"], data["mensaje"], channel, logger)
             return "Encolado"
     else:
         print('Parametros incorrectos.')

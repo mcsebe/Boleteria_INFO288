@@ -15,7 +15,7 @@ def get_connection_db(conn):
 
 
 # Función que realiza la consulta a la base de datos por un token en específico
-def token(dbConnConfig, token, name, format):
+def token(dbConnConfig, token, name, logger):
     resp = []
     # Realiza la consulta a la base de datos
     try:
@@ -43,22 +43,9 @@ def token(dbConnConfig, token, name, format):
 
     # Si el token existe retorna "SI", en caso contrario retorna "NO"
     if len(resp) == 1:
-        logW = os.getcwd() + "\\Log\\" + "logs.txt"
-        try:
-            file = open(logW, 'a+')
-        except:
-            logL = os.getcwd() + "/files/" + "logs.txt"
-            file = open(logL, 'a+')
-        file.write(current_time_formated + "; Consulta sobre token " + token + ";SI;" + name + "\n")
+        logger.info("Consulta sobre token " + token + ";SI;" + name)
 
         return "SI"
     else:
-        logW = os.getcwd() + "\\Log\\" + "logs.txt"
-        try:
-            file = open(logW, 'a+')
-        except:
-            logL = os.getcwd() + "/files/" + "logs.txt"
-            file = open(logL, 'a+')
-        file.write(current_time_formated + "; Consulta sobre token " + token + ";NO;" + name + "\n")
-
+        logger.info("Consulta sobre token " + token + ";NO;" + name)
         return "NO"
