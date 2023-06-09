@@ -37,7 +37,7 @@ En caso de querer modificar configuraciones de la aplicacion, se debe acceder a 
          2.9.3 Si se realizo un cambio en el puerto por el cual correra la base de datos, tendra que cambiar el valor de ports:  
              ![Alt text](images/image-7.png)  
    3. Para añadir nuevas colas primero se debe añadir el concierto a la base de dato con su respectiva cola. Luego se debe modificar:  
-      3.1 Cluster2/Publisher-Backend/config/config.json
+      3.1 Cluster2/Publisher-Backend/config/config.json  
          3.1.1 Añadir la nueva cola con el nombre del concierto o conciertos que existiran en esta.  
             ![Alt text](<images/image-1.png>)  
          Aqui se añadio una nueva cola llamada "nuevacola"  
