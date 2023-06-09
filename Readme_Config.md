@@ -37,7 +37,7 @@ En caso de querer modificar configuraciones de la aplicacion, se debe acceder a 
          2.9.3 Si se realizo un cambio en el puerto por el cual correra la base de datos, tendra que cambiar el valor de ports:  
              ![Alt text](images/image-7.png)  
    3. Para añadir nuevas colas primero se debe añadir el concierto a la base de dato con su respectiva cola. Luego se debe modificar:  
-      3.1 Cluster2/Publisher-Backend/config/config.json  
+      3.1 Cluster2/Publisher-Backend/config/config.json
          3.1.1 Añadir la nueva cola con el nombre del concierto o conciertos que existiran en esta.  
             ![Alt text](<images/image-1.png>)  
          Aqui se añadio una nueva cola llamada "nuevacola"  
@@ -47,8 +47,12 @@ En caso de querer modificar configuraciones de la aplicacion, se debe acceder a 
          Aqui se añadio una nueva cola con una capacidad de 100 personas que pueden entrar, antes de empezar a encolar.
    4. Para añadir réplicas del componente token_backend:  
       4.1 Añadir el archivo de configuración correspondiente (ejemplo: config3.json).  
+            ![Alt text](images/image-9.png)  
       4.2 Modificar el archivo Cluster3/nginx.conf, añadiendo la ruta del slave en la sección "upstream backend".  
+            ![Alt text](images/image-10.png)  
       4.3 Añadir la información del slave a Cluster3/.env para que se ejecute al levantar con el "docker compose up".  
+            ![Alt text](images/image-11.png)  
+            ![Alt text](images/image-12.png)  
    5. Para cambiar las credenciales de rabbitMQ:
       5.1 Cambiar las variables de entorno en Cluster2/rabbit/Dockerfile  
       5.2 Cambiar Cluster1/Backend/model/__init__.py, donde se establece la conexión a la cola.  
@@ -56,3 +60,4 @@ En caso de querer modificar configuraciones de la aplicacion, se debe acceder a 
       5.4 Cambiar Cluster2/Suscription-Backend/reciber.py, donde se establece la conexión a la cola.  
       5.5 Cambiar Cluster3/GarbageCollector/garbage.py, donde se establece la conexión a la cola.  
    6. Para cambiar la cantidad de clientes simultáneos en conciertos con la misma cola, se debe cambiar en  Cluster2/Suscription-Backend/config/config.json
+         ![Alt text](images/image-8.png)  
