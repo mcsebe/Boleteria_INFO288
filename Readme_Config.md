@@ -45,7 +45,7 @@ En caso de querer modificar configuraciones de la aplicacion, se debe acceder a 
          3.2.1 Luego de haber añadido en 3.1.1 añadir en la seccion "Queues" la cola con su capacidad de persoans que podran estar antes de que empiece a encolar.  
             ![Alt text](images/image-8.png)  
          Aqui se añadio una nueva cola con una capacidad de 100 personas que pueden entrar, antes de empezar a encolar.
-   4. Para añadir réplicas del componente token_backend:
+   4. Para añadir réplicas del componente token_backend:  
       4.1 Añadir el archivo de configuración correspondiente (ejemplo: config3.json).  
       4.2 Modificar el archivo Cluster3/nginx.conf, añadiendo la ruta del slave en la sección "upstream backend".  
       4.3 Añadir la información del slave a Cluster3/.env para que se ejecute al levantar con el "docker compose up".  
