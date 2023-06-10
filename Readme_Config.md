@@ -54,7 +54,7 @@ En caso de querer modificar configuraciones de la aplicacion, se debe acceder a 
             ![Alt text](images/image-11.png)  
             ![Alt text](images/image-12.png)  
    5. Para cambiar las credenciales de rabbitMQ:  
-      5.1 Cambiar las variables de entorno en Cluster2/rabbit/Dockerfile  
+      5.1 Cambiar las variables de entorno (RABBITMQ_USER,RABBITMQ_PASSWORD) en Cluster2/rabbit/Dockerfile en los siguientes ejemplos se cambio el usuario y la contraseña.  
             ![Alt text](images/image-13.png)  
       5.2 Cambiar Cluster1/Backend/config/config.json donde se establece la conexión a la cola.  
             ![Alt text](images/image-14.png)  
