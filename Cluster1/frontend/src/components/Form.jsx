@@ -8,6 +8,8 @@ import MovimientoOriginal from "../assets/movimientoOriginal.png";
 import Chystemc from "../assets/chystemc.png";
 import { useNavigate  } from 'react-router-dom';
 import moment from 'moment';
+import {useFormik} from 'formik';
+import * as Yup from 'yup';
 
 export default function Form(props) {
 
@@ -23,13 +25,10 @@ export default function Form(props) {
     // Asignar el valor al diccionario
     places[key] = value;
   }
+
   const history = useNavigate();
   const images = [Image, Weeknd, Siames, molotov, MovimientoOriginal, Chystemc];
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
   const [selectedSeat, setSelectedSeat] = useState("");
-  const [rut, setRut] = useState("");
-  const [age, setAge] = useState("");
   const [price, setPrice] = useState("-");
   const cookies = document.cookie.split(";");
   // Busca la cookie con el nombre "token"
@@ -41,43 +40,56 @@ export default function Form(props) {
   if (tokenCookie) {
     token = tokenCookie.split("=")[1];
   }
-  const handleNameChange = (event) => {
-    setName(event.target.value);
-  };
-  const handleRutChange = (event) => {
-    setRut(event.target.value);
-  };
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-  };
-  const handleAgeChange = (event) => {
-    setAge(event.target.value);
-  };
   const handleSeatChange = (event) => {
     setSelectedSeat(event.target.value);
     setPrice(places[event.target.value][1]);
   };
+  const validationSchema = Yup.object().shape({
+    fullname: Yup.string().required('El nombre es requerido'),
+    rut: Yup.string().matches(/(\d{1,3}(?:\.\d{1,3}){2}-[\dkK])$/, 'El RUT no es válido'),
+    email: Yup.string().email('El correo electrónico no es válido').required('El correo electrónico es requerido'),
+    age: Yup.number().positive('La edad debe ser un número positivo').required('La edad es requerida'),
+  });
   // -----------------------------------------------------
-  const handleSubmit = (event) => {
-    event.preventDefault();
 
-    const propsToSend = {
-      Nombre: name,
-      Rut: rut,
-      Correo: email,
-      Edad: age,
-      Asiento: selectedSeat,
-      Id_concierto: parseInt(props.concert[1][0]),
-      Nombre_Concierto: props.concert[1][7],
-      Token: token,
-      T1: moment().format('YYYY-MM-DD HH:mm:ss'),
-      Price: price
-    };
-    const paymentUrl = `/concierto/${parseInt(props.concert[1][0])}/pago`
-    history(paymentUrl , { state: propsToSend });
-  };
+  const formik = useFormik({
+    initialValues: {
+      fullname: '',
+      rut: '',
+      email: '',
+      age: '',
+      seat: ''
+    },
+    validationSchema,
+    onSubmit: (values) => {
+      const propsToSend = {
+        Nombre: values.fullname,
+        Rut: values.rut,
+        Correo: values.email,
+        Edad: values.age,
+        Asiento: selectedSeat,
+        Id_concierto: parseInt(props.concert[1][0]),
+        Nombre_Concierto: props.concert[1][7],
+        Token: token,
+        T1: moment().format('YYYY-MM-DD HH:mm:ss'),
+        Price: price
+      };
+      const paymentUrl = `/concierto/${parseInt(props.concert[1][0])}/pago`;
+      history(paymentUrl, { state: propsToSend });
+    }
+  });
+
+   const {
+    handleSubmit,
+    handleChange,
+    handleBlur,
+    values,
+    errors,
+    touched
+  } = formik;
+
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={formik.handleSubmit}>
       <div className="grid md:grid-cols-2 justify-items-center ">
         <div className=" pb-12">
           <h2 className="text-base font-bold leading-7 text-gray-900">
@@ -96,15 +108,20 @@ export default function Form(props) {
                 Nombre completo
               </label>
               <div className="mt-2">
-                <input
-                  type="fullname"
-                  id="fullname"
-                  value={name}
-                  onChange={handleNameChange}
-                  placeholder="Ingrese su nombre completo"
-                  className="w-full border rounded-md py-2 px-3 text-gray-900"
-                  required
-                />
+              <input
+                type="text"
+                id="fullname"
+                name="fullname"
+                value={formik.values.fullname}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                placeholder="Ingrese su nombre completo"
+                className="w-full border rounded-md py-2 px-3 text-gray-900"
+                required
+              />
+                {formik.touched.fullname && formik.errors.fullname ? (
+                  <div className="text-red-600">{formik.errors.fullname}</div>
+                ) : null}
               </div>
             </div>
             <div className="sm:col-span-3">
@@ -116,14 +133,19 @@ export default function Form(props) {
               </label>
               <div className="mt-2">
                 <input
-                  type="rut"
+                  type="text"
                   id="rut"
-                  value={rut}
-                  onChange={handleRutChange}
+                  name="rut"
+                  value={formik.values.rut}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                   placeholder="Ingrese su rut"
                   className="w-full border rounded-md py-2 px-3 text-gray-900"
                   required
                 />
+                {formik.touched.rut && formik.errors.rut ? (
+                  <div className="text-red-600">{formik.errors.rut}</div>
+                ) : null}
               </div>
             </div>
             <div className="sm:col-span-3">
@@ -137,12 +159,17 @@ export default function Form(props) {
                 <input
                   type="email"
                   id="email"
-                  value={email}
-                  onChange={handleEmailChange}
+                  name="email"
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                   placeholder="Ingrese su Email"
                   className="w-full border rounded-md py-2 px-3 text-gray-900"
                   required
                 />
+                  {formik.touched.email && formik.errors.email ? (
+                  <div className="text-red-600">{formik.errors.email}</div>
+                ) : null}
               </div>
             </div>
             <div className="sm:col-span-3">
@@ -156,12 +183,17 @@ export default function Form(props) {
                 <input
                   type="age"
                   id="age"
-                  value={age}
-                  onChange={handleAgeChange}
+                  name="age"
+                  value={formik.values.age}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                   placeholder="Ingrese su edad"
                   className="w-full border rounded-md py-2 px-3 text-gray-900"
                   required
                 />
+                  {formik.touched.age && formik.errors.age ? (
+                  <div className="text-red-600">{formik.errors.age}</div>
+                ) : null}
               </div>
             </div>
             <div className="sm:col-span-3">

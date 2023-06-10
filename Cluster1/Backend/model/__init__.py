@@ -2,6 +2,7 @@ import mariadb
 import pika
 from datetime import datetime
 import os
+import re
 
 ###############################################################################
 
@@ -18,6 +19,9 @@ def get_connection_db(conn):
 
 
 # Función que retorna los asientos ya reservados de un concierto
+#Limpia los strings de "" ; \
+def clean(unverified_input):
+    return(re.sub(r'[\'";]', '', unverified_input))
 
 def available(dbConnConfig, concert):
     resp = []
@@ -106,11 +110,10 @@ def insert(dbConnConfig, dbConnConfig2, data, logger, Rabbit):
         connection = get_connection_db(dbConnConfig2)
         cursor = connection.cursor()
 
-        sqlStatement = 'DELETE FROM token WHERE Valor = "' + \
-            data["Token"] + '"'
+        sqlStatement = 'DELETE FROM token WHERE Valor = %s' 
         print(sqlStatement)
 
-        cursor.execute(sqlStatement)
+        cursor.execute(sqlStatement,(clean(data["Token"]),))
         connection.commit()
 
         logger.info("Eliminando token " + data["Token"] + " de la base de datos")
@@ -134,7 +137,7 @@ def insert(dbConnConfig, dbConnConfig2, data, logger, Rabbit):
 
         sqlStatement = """INSERT INTO reserva (Asiento, Nombre, Rut, Edad, Correo, id_concierto, TiempoSelec, TiempoPago, Precio) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"""
 
-        cursor.execute(sqlStatement, (data["Asiento"], data["Nombre"], data["Rut"], int(data["Edad"]), data["Correo"], int(data["Id_concierto"]), data["T1"], data["T2"], int(data["Price"])))
+        cursor.execute(sqlStatement, (data["Asiento"],clean(data["Nombre"]), clean(data["Rut"]), int(data["Edad"]), clean(data["Correo"]), int(data["Id_concierto"]), data["T1"], data["T2"], int(data["Price"])))
         connection.commit()
         resp["inserted_rows"] = cursor.rowcount
 

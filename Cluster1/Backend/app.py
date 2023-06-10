@@ -5,23 +5,25 @@ import model
 from datetime import datetime, timedelta
 import logging
 from flask_cors import CORS, cross_origin
+import re
 
 app = Flask(__name__)
 CORS(app)
 app.run(debug=True)
-
+print("????")
 app.logger.disabled = True
 log = logging.getLogger('werkzeug')
 log.disabled = True
 logging.getLogger("pika").propagate = False
-
+print("?")
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 handler = logging.FileHandler(sysConfig["log_rute"])
 handler.setFormatter(logging.Formatter('%(asctime)s;%(message)s', datefmt="%H:%M:%S;%d/%m/%Y"))
 logger.addHandler(handler)
 
-
+def clean(unverified_input):
+    return(re.sub(r'[\'";]', '', unverified_input))
 # Ruta que entrega la información del concierto: Capacidad, Asientos disponibles e información general presente en la base de datos
 @app.route('/informacion', methods=['GET', 'PUT'])
 def getInformation():

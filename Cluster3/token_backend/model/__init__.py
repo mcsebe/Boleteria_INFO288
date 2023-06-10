@@ -1,6 +1,7 @@
 import mariadb
 from datetime import datetime, timedelta
 import os
+import re
 
 ###############################################################################
 
@@ -13,7 +14,9 @@ def get_connection_db(conn):
 
 ###############################################################################
 
-
+#Limpia los strings de "" ; \
+def clean(unverified_input):
+    return(re.sub(r'[\'";]', '', unverified_input))
 # Función que realiza la consulta a la base de datos por un token en específico
 def token(dbConnConfig, token, name, logger):
     resp = []
@@ -21,8 +24,8 @@ def token(dbConnConfig, token, name, logger):
     try:
         connection = get_connection_db(dbConnConfig)
         cursor = connection.cursor()
-        sqlStatement = 'SELECT * FROM token WHERE Valor ="' + token + '"'
-        cursor.execute(sqlStatement)
+        sqlStatement = 'SELECT * FROM token WHERE Valor = %s'
+        cursor.execute(sqlStatement,(clean(token),))
         resp = cursor.fetchall()
 
     except (Exception, mariadb.Error) as error:
@@ -38,8 +41,6 @@ def token(dbConnConfig, token, name, logger):
             print("MariaDB connection is closed")
 
     # Escribe en el log de eventos
-    current_time = datetime.now()
-    current_time_formated = current_time.strftime(format)
 
     # Si el token existe retorna "SI", en caso contrario retorna "NO"
     if len(resp) == 1:
