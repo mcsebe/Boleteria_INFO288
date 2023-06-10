@@ -53,11 +53,17 @@ En caso de querer modificar configuraciones de la aplicacion, se debe acceder a 
       4.3 Añadir la información del slave a Cluster3/.env para que se ejecute al levantar con el "docker compose up".  
             ![Alt text](images/image-11.png)  
             ![Alt text](images/image-12.png)  
-   5. Para cambiar las credenciales de rabbitMQ:
+   5. Para cambiar las credenciales de rabbitMQ:  
       5.1 Cambiar las variables de entorno en Cluster2/rabbit/Dockerfile  
-      5.2 Cambiar Cluster1/Backend/model/__init__.py, donde se establece la conexión a la cola.  
-      5.3 Cambiar Cluster2/Publisher-Backend/app.py, donde se establece la conexión a la cola.  
-      5.4 Cambiar Cluster2/Suscription-Backend/reciber.py, donde se establece la conexión a la cola.  
-      5.5 Cambiar Cluster3/GarbageCollector/garbage.py, donde se establece la conexión a la cola.  
+            ![Alt text](images/image-13.png)  
+      5.2 Cambiar Cluster1/Backend/config/config.json donde se establece la conexión a la cola.  
+            ![Alt text](images/image-14.png)  
+      5.3 Cambiar Cluster2/Publisher-Backend/config/config.json, donde se establece la conexión a la cola.  
+            ![Alt text](images/image-15.png)  
+      5.4 Cambiar Cluster2/Suscription-Backend/config/config.json, donde se establece la conexión a la cola.  
+            ![Alt text](images/image-16.png)  
+      5.5 Cambiar Cluster3/GarbageCollector/config/config.json, donde se establece la conexión a la cola.  
+            ![Alt text](images/image-17.png)  
+      5.6 Cabe destacar que al cambiar una credencia, ya sea user o password, esta tiene que cambiar en todos los archivos antes mencionados.
    6. Para cambiar la cantidad de clientes simultáneos en conciertos con la misma cola, se debe cambiar en  Cluster2/Suscription-Backend/config/config.json
          ![Alt text](images/image-8.png)  
