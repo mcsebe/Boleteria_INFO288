@@ -17,6 +17,7 @@ def get_connection_db(conn):
 #Limpia los strings de "" ; \
 def clean(unverified_input):
     return(re.sub(r'[\'";]', '', unverified_input))
+
 # Función que realiza la consulta a la base de datos por un token en específico
 def token(dbConnConfig, token, name, logger):
     resp = []

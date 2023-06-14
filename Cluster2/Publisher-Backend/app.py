@@ -37,9 +37,11 @@ logger.setLevel(logging.INFO)
 handler = logging.FileHandler(sysConfig["log_rute"])
 handler.setFormatter(logging.Formatter('%(asctime)s;%(message)s', datefmt="%H:%M:%S;%d/%m/%Y"))
 logger.addHandler(handler)
+
 #Limpia los strings de "" ; \
 def clean(unverified_input):
     return(re.sub(r'[\'";]', '', unverified_input))
+
 # Ruta que envía el token recibido a la cola correspondiente
 @app.route('/publisher', methods=['PUT'])
 def getPublisher():

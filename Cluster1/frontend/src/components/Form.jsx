@@ -10,6 +10,7 @@ import { useNavigate  } from 'react-router-dom';
 import moment from 'moment';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
+import Config from "../config/config.json"
 
 export default function Form(props) {
 
@@ -88,12 +89,29 @@ export default function Form(props) {
     touched
   } = formik;
 
+
+  const [seconds, setSeconds] = useState(Config.token_seg*60);
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setSeconds(prevSeconds => prevSeconds - 1);
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+
+
   return (
     <form onSubmit={formik.handleSubmit}>
+      <div className="flex justify-center items-center">
+        <h3>Tiempo restante para llenar el formulario: {minutes}:{remainingSeconds < 10 ? '0' : ''}{remainingSeconds}</h3>
+      </div>
       <div className="grid md:grid-cols-2 justify-items-center ">
         <div className=" pb-12">
           <h2 className="text-base font-bold leading-7 text-gray-900">
-            Ingresar informacion personal
+              Ingresar informacion personal
           </h2>
           <p className="mt-1 text-sm leading-6 text-gray-600">
             Recuerde ingresar su correo electronico personal, pues a este
